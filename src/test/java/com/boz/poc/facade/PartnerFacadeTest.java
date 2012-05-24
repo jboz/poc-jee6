@@ -17,11 +17,12 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import ch.mobi.posi.common.tools.ReflectionUtils;
+import ch.mobi.posi.common.tools.dbunit.DBUnitRule;
+import ch.mobi.posi.common.tools.dbunit.DataSet;
+import ch.mobi.posi.common.tools.mockito.MockingRule;
+
 import com.boz.poc.domain.Partner;
-import com.boz.poc.tools.ReflectionUtils;
-import com.boz.poc.tools.dbunit.DBUnitRule;
-import com.boz.poc.tools.dbunit.DataSet;
-import com.boz.poc.tools.mockito.MockingRule;
 
 /**
  * Test de la facade {@link PartnerFacade}.
