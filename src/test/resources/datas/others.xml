@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <!-- test replacement -->
+  <MyEntity id="20" name="Pierre" birthDay="[NOW]" timeToMarket="[NOW]" createdOn="[NOW]" amount="[NULL]" />
+
+  <!-- test no define all columns -->
+  <MyEntity id="21" name="Handerson" />
+</dataset>

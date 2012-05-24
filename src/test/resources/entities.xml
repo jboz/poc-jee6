@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <MyEntity id="1" name="Hervé" />
+  <MyEntity id="2" name="Jimi" />
+
+  <MyEntity id="3" name="Pierre" birthDay="2009-05-13" timeToMarket="07:55:45" createdOn="2012-04-16 13:15:59" amount="2.5489" />
+</dataset>

@@ -19,6 +19,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.1</version>
+		</dependency>
 		<!-- commons -->
 		<dependency>
 			<groupId>commons-lang</groupId>
