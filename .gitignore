@@ -1,0 +1,26 @@
+# global #
+######################
+*.log
+
+# Java.gitignore #
+######################
+#*.class #comment for .metadata contents               
+
+# Maven.gitignore #
+######################
+target
+
+# SVN.gitignore #
+######################
+.svn
+        
+# Eclipse.gitignore #
+######################
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+
