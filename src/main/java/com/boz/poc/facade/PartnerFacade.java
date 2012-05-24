@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,6 +16,7 @@ import com.boz.poc.domain.Partner;
  * @author jboz
  */
 @Stateless
+@WebService
 public class PartnerFacade {
 
 	@PersistenceContext
