@@ -8,6 +8,8 @@ import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import ch.mobi.posi.common.tools.DateUtils;
+
 import com.boz.poc.domain.Partner;
 
 /**
@@ -20,7 +22,7 @@ import com.boz.poc.domain.Partner;
 public class PartnerFacade {
 
 	@PersistenceContext
-	private EntityManager em;
+	EntityManager em;
 
 	/**
 	 * Create a {@link Partner}.
@@ -32,7 +34,7 @@ public class PartnerFacade {
 	public Partner createPartner(final String name, final Date birthDate) {
 		final Partner partner = new Partner();
 		partner.setName(name);
-		partner.setBirthDate(birthDate);
+		partner.setBirthDate(birthDate == null ? DateUtils.getToday() : birthDate);
 
 		em.persist(partner);
 
