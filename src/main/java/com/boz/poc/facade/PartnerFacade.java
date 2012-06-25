@@ -1,14 +1,16 @@
 package com.boz.poc.facade;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.jws.soap.SOAPBinding.Style;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.boz.poc.domain.Partner;
+import com.boz.poc.dto.Partners;
 
 /**
  * Business facade for {@link Partner} entity.
@@ -17,6 +19,7 @@ import com.boz.poc.domain.Partner;
  */
 @Stateless
 @WebService
+@SOAPBinding(style = Style.RPC)
 public class PartnerFacade {
 
 	@PersistenceContext
@@ -42,7 +45,7 @@ public class PartnerFacade {
 	/**
 	 * @return all partners
 	 */
-	public List<Partner> getAllPartners() {
-		return em.createQuery("from Partner order by birthDate, name", Partner.class).getResultList();
+	public Partners getAllPartners() {
+		return new Partners(em.createQuery("from Partner order by birthDate, name", Partner.class).getResultList());
 	}
 }

@@ -5,12 +5,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Date;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -69,7 +73,7 @@ public class PartnerFacadeTest {
 
 		final Partner partnerA = createPartner("a", null);
 		when(typedQuery.getResultList()).thenReturn(Arrays.asList(partnerA));
-		assertThat(facade.getAllPartners()).hasSize(1).containsOnly(partnerA);
+		assertThat(facade.getAllPartners().getPartners()).hasSize(1).containsOnly(partnerA);
 	}
 
 	private static Partner createPartner(final String name, final Date birthDate) {
@@ -90,7 +94,22 @@ public class PartnerFacadeTest {
 	@Test
 	@DataSet("datas/partners")
 	public void testGetAllPartners_ordered() {
-		assertThat(facade.getAllPartners()).hasSize(4).containsExactly(createPartner(4000), createPartner(2000), createPartner(3000),
-				createPartner(1000));
+		assertThat(facade.getAllPartners().getPartners()).hasSize(4).containsExactly(createPartner(4000), createPartner(2000),
+				createPartner(3000), createPartner(1000));
+	}
+
+	@Test
+	public void testConsumeGetAllPartners() throws MalformedURLException {
+		final URL url = new URL("http://localhost:8080/poc-jee6/PartnerFacade?wsdl");
+
+		// 1st argument service URI, refer to wsdl document above
+		// 2nd argument is service name, refer to wsdl document above
+		final QName qname = new QName("http://facade.poc.boz.com/", "PartnerFacadeService");
+
+		final Service service = Service.create(url, qname);
+
+		final PartnerFacade facade = service.getPort(PartnerFacade.class);
+
+		System.out.println(facade.getAllPartners());
 	}
 }

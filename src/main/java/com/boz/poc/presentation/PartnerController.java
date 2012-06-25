@@ -25,15 +25,16 @@ import com.boz.poc.facade.PartnerFacade;
 public class PartnerController {
 
 	@EJB
+	// @WebServiceRef(wsdlLocation = "http://localhost:8080/poc-jee6/PartnerFacadeService?wsdl")
 	private PartnerFacade partnerFacade;
 
 	@GET
 	public List<Partner> getAll() {
-		return partnerFacade.getAllPartners();
+		return partnerFacade.getAllPartners().getPartners();
 	}
 
 	@POST
-	// curl -d name=Bob -d birthDate=2000-01-01 http://localhost:8080/poc-jee6/partner
+	// curl -d name=Bob -d birthDate=2000-01-01 http://localhost:8080/poc-jee6/rest/partner
 	public Partner create(@FormParam("name") final String name, @FormParam("birthDate") final String birthDate) {
 		return partnerFacade.createPartner(name, DateTime.parse(birthDate).toDate());
 	}

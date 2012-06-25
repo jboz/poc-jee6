@@ -173,5 +173,34 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<!-- mvn -Pws jaxws:wsimport -->
+			<id>ws</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>jaxws-maven-plugin</artifactId>
+						<version>1.12</version>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>wsimport</goal>
+								</goals>
+								<configuration>
+									<verbose>true</verbose>
+									<wsdlUrls>
+										<wsdlUrl>http://localhost:8080/poc-jee6/PartnerFacade?wsdl</wsdlUrl>
+									</wsdlUrls>
+									<destDir>src/wsimport/java</destDir>
+									<sourceDestDir>src/wsimport/java</sourceDestDir>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>

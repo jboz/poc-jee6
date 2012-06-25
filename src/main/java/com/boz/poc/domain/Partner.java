@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -22,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author jboz
  */
 @Entity
+@XmlRootElement
 public class Partner implements Serializable {
 	private static final long serialVersionUID = 1L;
 
