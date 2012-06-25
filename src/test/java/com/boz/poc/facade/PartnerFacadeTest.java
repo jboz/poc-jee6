@@ -21,12 +21,14 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import ch.mobi.posi.common.tools.DateUtils;
 import ch.mobi.posi.common.tools.ReflectionUtils;
 import ch.mobi.posi.common.tools.dbunit.DBUnitRule;
 import ch.mobi.posi.common.tools.dbunit.DataSet;
 import ch.mobi.posi.common.tools.mockito.MockingRule;
 
 import com.boz.poc.domain.Partner;
+import com.boz.poc.ws.IPartnerService;
 
 /**
  * Test de la facade {@link PartnerFacade}.
@@ -99,17 +101,30 @@ public class PartnerFacadeTest {
 	}
 
 	@Test
+	// TODO curl -d name=Bob -d birthDate=2000-01-01 http://localhost:8080/poc-jee6/rest/partner
 	public void testConsumeGetAllPartners() throws MalformedURLException {
-		final URL url = new URL("http://localhost:8080/poc-jee6/PartnerFacade?wsdl");
+		final URL url = new URL("http://localhost:8080/poc-jee6/PartnerService?wsdl");
 
 		// 1st argument service URI, refer to wsdl document above
 		// 2nd argument is service name, refer to wsdl document above
-		final QName qname = new QName("http://facade.poc.boz.com/", "PartnerFacadeService");
+		final QName qname = new QName("http://ws.poc.boz.com/", "PartnerServiceService");
 
 		final Service service = Service.create(url, qname);
 
-		final PartnerFacade facade = service.getPort(PartnerFacade.class);
+		final IPartnerService facade = service.getPort(IPartnerService.class);
 
+		final Partner expected = new Partner();
+		expected.setBirthDate(DateUtils.parse("01.01.2010"));
+		expected.setName("Joe");
+		final Partner partnerCreated = facade.createPartner("Joe", DateUtils.parse("01.01.2010"));
+
+		assertThat(partnerCreated).isNotNull();
+		assertThat(partnerCreated.getId()).isNotNull();
+		partnerCreated.setId(null);
+		assertThat(partnerCreated).isEqualTo(expected);
+
+		assertThat(facade.getAllPartners()).isNotNull();
+		assertThat(facade.getAllPartners().getPartners().size()).isGreaterThanOrEqualTo(1);
 		System.out.println(facade.getAllPartners());
 	}
 }
