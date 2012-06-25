@@ -125,6 +125,11 @@ public class PartnerFacadeTest {
 
 		assertThat(facade.getAllPartners()).isNotNull();
 		assertThat(facade.getAllPartners().getPartners().size()).isGreaterThanOrEqualTo(1);
-		System.out.println(facade.getAllPartners());
+
+		final Partner joe = facade.findPartnerByName("Joe");
+
+		assertThat(joe).isNotNull();
+		assertThat(joe.getName()).isEqualTo("Joe");
+		assertThat(joe.getBirthDate()).isEqualTo(DateUtils.parse("01.01.2010"));
 	}
 }

@@ -3,6 +3,7 @@ package com.boz.poc.ws;
 import java.util.Date;
 
 import javax.inject.Inject;
+import javax.jws.HandlerChain;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
@@ -20,6 +21,7 @@ import com.boz.poc.facade.PartnerFacade;
  */
 @WebService
 @SOAPBinding(style = Style.DOCUMENT)
+@HandlerChain(file = "/handler-chain.xml")
 public class PartnerService implements IPartnerService {
 
 	@PersistenceContext

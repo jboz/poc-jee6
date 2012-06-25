@@ -34,6 +34,7 @@ public class Partner implements Serializable {
 	@GeneratedValue
 	private Long id;
 
+	@Column(nullable = false, unique = true, updatable = false)
 	private String name;
 
 	@Column(nullable = false)

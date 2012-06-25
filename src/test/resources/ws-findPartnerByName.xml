@@ -1,2 +1,8 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<name>Joe</name>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+	<S:Header />
+	<S:Body>
+		<ns2:findPartnerByName xmlns:ns2="http://ws.poc.boz.com/">
+			<arg0>Joe</arg0>
+		</ns2:findPartnerByName>
+	</S:Body>
+</S:Envelope>
