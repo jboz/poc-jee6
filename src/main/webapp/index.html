@@ -2,9 +2,62 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+<!-- JQueryUI -->
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" />
+
+<!-- bootstrap -->
+<link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+<style>
+body {
+	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+</style>
+<link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+<!-- poc -->
+<script>
+	$(function() {
+		$("#listPartners").click(function() {
+			listAll();
+	    });
+	});
+
+	function listAll() {
+		$.getJSON("rest/partner", function (partners) {
+			$('#partners').empty();
+			$.each(partners, function (index, partner) {
+			    $('#partners').append('<p><strong>' + partner.name + '</strong><br /> né le ' + partner.birthDate + '</p>');
+			});
+			$('#partners').effect("highlight", {}, 3000);
+        });
+            
+	}
+</script>
 <title>POC JEE6</title>
 </head>
 <body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+				</a> <a class="brand" href="#">POC JEE6</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<!-- <li><a href="#contact">Contact</a></li> -->
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
 
+	<div class="container">
+		<a id="listPartners" class="btn btn-primary btn-large">List partners »</a>
+		<div id="partners" style="width: 300px;background-color: white;"></div>
+	</div>
 </body>
 </html>

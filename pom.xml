@@ -21,8 +21,14 @@
 	<dependencies>
 		<dependency>
 			<groupId>ch.mobi.posi</groupId>
-			<artifactId>posi_commons</artifactId>
+			<artifactId>posi_commons_tests</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>ch.mobi.posi</groupId>
+					<artifactId>posi_ejb</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
