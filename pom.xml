@@ -16,7 +16,44 @@
 		<maven.compiler.target>${compileSource}</maven.compiler.target>
 
 		<slf4j.version>1.6.4</slf4j.version>
+		
+		<jboss-server.version>7.1.0.Final</jboss-server.version>
+		<jboss-jee.version>2.0.0.Final</jboss-jee.version>
+		<arquillian.version>1.0.0.CR7</arquillian.version>
+		<arquillian.persistence.version>1.0.0.Alpha4</arquillian.persistence.version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-6.0</artifactId>
+				<version>${jboss-jee.version}</version>
+				<type>pom</type>
+				<scope>provided</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.xalan</groupId>
+						<artifactId>xalan</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>${arquillian.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.shrinkwrap</groupId>
+				<artifactId>shrinkwrap-bom</artifactId>
+				<version>1.0.0-cr-3</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
@@ -138,6 +175,38 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.2.0.Final</version>
 		</dependency>
+		
+		<!-- arquillian -->
+		<dependency><!-- test avec JUnit -->
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.protocol</groupId>
+			<artifactId>arquillian-protocol-servlet</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency><!-- injection de donnée en base -->
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-persistence-impl</artifactId>
+			<version>${arquillian.persistence.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency><!-- test service REST -->
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>2.0.1.GA</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Import the EJB API, we use provided scope as the API is included in JBoss AS 7 -->
+		<dependency>
+			<groupId>org.jboss.ejb3</groupId>
+			<artifactId>jboss-ejb3-ext-api</artifactId>
+			<version>2.0.0-beta-1</version>
+			<scope>provided</scope>
+			<type>jar</type>
+		</dependency>
 
 		<!-- the last one -->
 		<dependency>
@@ -167,7 +236,23 @@
 		<profile>
 			<!-- jboss local -->
 			<id>jboss-managed</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-arquillian-container-managed</artifactId>
+					<version>${jboss-server.version}</version>
+				</dependency>
+			</dependencies>
 			<build>
+				<testResources>
+					<testResource>
+						<directory>src/test/resources</directory>
+					</testResource>
+					<!-- configuration spécifique à la version locale -->
+					<testResource>
+						<directory>src/test/resources-jbossas-7-managed</directory>
+					</testResource>
+				</testResources>
 				<plugins>
 					<!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
 					<!-- To use, set the JBOSS_HOME environment variable and run: mvn package jboss-as:deploy -->
