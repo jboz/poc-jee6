@@ -21,7 +21,7 @@ import com.boz.poc.facade.PartnerFacade;
  */
 @WebService
 @SOAPBinding(style = Style.DOCUMENT)
-@HandlerChain(file = "/handler-chain.xml")
+//@HandlerChain(file = "/META-INF/handler-chain.xml")
 public class PartnerService implements IPartnerService {
 
 	@PersistenceContext

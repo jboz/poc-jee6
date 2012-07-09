@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import com.boz.poc.domain.Partner;
 
 @XmlRootElement
@@ -24,5 +27,10 @@ public class Partners {
 
 	public List<Partner> getPartners() {
 		return partners;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }
