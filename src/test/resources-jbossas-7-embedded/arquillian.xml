@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://jboss.org/schema/arquillian"
+  xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+  <!-- embedded jboss in /target -->
+  <container qualifier="jbossas-embedded-7" default="true">
+    <configuration>
+      <property name="jbossHome">target/jboss-as-${jboss.version:7.1.0.Final}</property>
+
+      <!-- refine ports to use and fast startup -->
+      <property name="managementPort">10199</property>
+      <property name="javaVmArguments">-d64 -noverify -Djboss.socket.binding.port-offset=200</property>
+    </configuration>
+  </container>
+
+  <!-- define the datasource to use -->
+  <extension qualifier="persistence"><!-- qualifier name is important -->
+    <property name="defaultDataSource">java:jboss/datasources/ExampleDS</property>
+    <property name="initStatement">SET REFERENTIAL_INTEGRITY FALSE</property>
+    <property name="userTransactionJndi">java:jboss/UserTransaction</property>
+  </extension>
+
+  <extension qualifier="persistence-dbunit"><!-- qualifier name is important -->
+    <property name="datatypeFactory">org.dbunit.ext.h2.H2DataTypeFactory</property>
+  </extension>
+
+</arquillian>

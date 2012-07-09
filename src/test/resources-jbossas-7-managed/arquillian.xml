@@ -10,7 +10,7 @@
 		</protocol>
 		<configuration>
 			<!-- Faster startup -->
-			<property name="javaVmArguments">-d32 -noverify</property>
+			<property name="javaVmArguments">-d64 -noverify</property>
 		</configuration>
 	</extension>
 

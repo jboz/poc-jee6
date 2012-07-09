@@ -17,8 +17,10 @@
 		<slf4j.version>1.6.4</slf4j.version>
 		<jboss-server.version>7.1.0.Final</jboss-server.version>
 		<jboss-jee.version>2.0.0.Final</jboss-jee.version>
-		<arquillian.version>1.0.0.CR7</arquillian.version>
+		<arquillian.version>1.0.1.Final</arquillian.version>
 		<arquillian.persistence.version>1.0.0.Alpha4</arquillian.persistence.version>
+
+		<integrationTestPattern>**/*IT.java</integrationTestPattern>
 	</properties>
 
 	<dependencyManagement>
@@ -226,6 +228,39 @@
 					<target>${compileSource}</target>
 				</configuration>
 			</plugin>
+			<!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
+			<!-- To use, set the JBOSS_HOME environment variable and run: mvn package jboss-as:deploy -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.1.0.Final</version>
+			</plugin>
+			<!-- *** Surefire plugin: run unit and integration tests in separate lifecycle phases, using file name pattern *** -->
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>${integrationTestPattern}</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<!-- *** Failsafe plugin: run integration tests *** -->
+			<plugin>
+				<!-- on lance les test IT avec le plugin failsafe pour que si un test echoue, le build echoue -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.12</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+					<!-- pas obligatoire car par défaut -->
+					<!-- <include>${integrationTestPattern}</include> -->
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -251,13 +286,63 @@
 						<directory>src/test/resources-jbossas-7-managed</directory>
 					</testResource>
 				</testResources>
+			</build>
+		</profile>
+		<profile>
+			<!-- jboss embarqué dans le repertoire target -->
+			<id>jboss-embedded</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-arquillian-container-managed</artifactId>
+					<version>${jboss-server.version}</version>
+				</dependency>
+			</dependencies>
+			<build>
+				<testResources>
+					<testResource>
+						<directory>src/test/resources</directory>
+					</testResource>
+					<!-- configuration spécifique à la version embarquée -->
+					<testResource>
+						<directory>src/test/resources-jbossas-7-embedded</directory>
+					</testResource>
+				</testResources>
 				<plugins>
-					<!-- The JBoss AS plugin deploys your war to a local JBoss AS container -->
-					<!-- To use, set the JBOSS_HOME environment variable and run: mvn package jboss-as:deploy -->
 					<plugin>
-						<groupId>org.jboss.as.plugins</groupId>
-						<artifactId>jboss-as-maven-plugin</artifactId>
-						<version>7.1.0.Final</version>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<!-- on place la version de jboss dans les propriétés système pour être utiliser dans le fichier arquillian.xml -->
+							<systemProperties>
+								<jboss.version>${jboss-server.version}</jboss.version>
+							</systemProperties>
+						</configuration>
+					</plugin>
+					<!-- on dezippe une archive toute fraiche du serveur jboss dans target -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>unpack</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>org.jboss.as</groupId>
+											<artifactId>jboss-as-dist</artifactId>
+											<version>${jboss-server.version}</version>
+											<type>zip</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>${project.build.directory}</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>

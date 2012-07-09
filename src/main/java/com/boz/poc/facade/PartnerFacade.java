@@ -15,11 +15,11 @@ import com.boz.poc.domain.Partner;
  *
  * @author jboz
  */
-@Stateless
+//@Stateless
 @WebService
 public class PartnerFacade {
 
-	@PersistenceContext
+	//@PersistenceContext
 	private EntityManager em;
 
 	/**
