@@ -2,6 +2,7 @@ package com.boz.poc.ws;
 
 import java.util.Date;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
@@ -27,7 +28,7 @@ public class PartnerService implements IPartnerService {
 	@PersistenceContext
 	private EntityManager em;
 
-	@Inject
+	@EJB
 	private PartnerFacade facade;
 
 	@Override

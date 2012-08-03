@@ -9,7 +9,6 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.arquillian.protocol.servlet.arq514hack.descriptors.api.web.WebAppDescriptor;
@@ -18,6 +17,8 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptors;
+import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
+import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,21 +36,25 @@ import com.boz.poc.facade.PartnerFacade;
  * @author jboz
  */
 @RunWith(Arquillian.class)
-@RunAsClient
+@UsingDataSet("datas/partners.xml")
 public class PartnerServiceIT {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return ShrinkWrap.create(WebArchive.class, "test.war")
-				.addClasses(IPartnerService.class, PartnerService.class, PartnerFacade.class, MessageHandler.class)
+		final MavenDependencyResolver resolver = DependencyResolvers.use(MavenDependencyResolver.class)
+				.loadMetadataFromPom("pom.xml");
+
+		return ShrinkWrap
+				.create(WebArchive.class, "test.war")
+				.addClasses(IPartnerService.class, PartnerService.class, PartnerFacade.class, MessageHandler.class, ReflectionUtils.class)
 				.addPackages(true, "com.boz.poc.domain", "com.boz.poc.dto", "org.joda.time")
 				.addAsResource("test-persistence.xml", "META-INF/persistence.xml").addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 				.addAsResource("test-handler-chain.xml", "META-INF/handler-chain.xml")
+				.addAsLibraries(resolver.artifact("org.easytesting:fest-assert").resolveAsFiles())
 				.setWebXML(new StringAsset(Descriptors.create(WebAppDescriptor.class).exportAsString()));
 	}
 
 	@Test
-	@UsingDataSet("datas/partners.xml")
 	public void testGetAllPartners_ordered() throws MalformedURLException {
 		final URL url = new URL("http://localhost:8280/test/PartnerService?wsdl");
 		final QName qname = new QName("http://ws.poc.boz.com/", "PartnerServiceService");
@@ -58,13 +63,8 @@ public class PartnerServiceIT {
 
 		final Partners partners = facade.getAllPartners();
 		Assert.assertNotNull(partners);
-		Assert.assertNotNull(partners.getPartners());
 		assertThat(partners.getPartners()).hasSize(4).containsExactly(createPartner(4000), createPartner(2000), createPartner(3000),
 				createPartner(1000));
-		Assert.assertEquals(createPartner(4000), facade.getAllPartners().getPartners().get(0));
-		Assert.assertEquals(createPartner(2000), facade.getAllPartners().getPartners().get(1));
-		Assert.assertEquals(createPartner(3000), facade.getAllPartners().getPartners().get(2));
-		Assert.assertEquals(createPartner(1000), facade.getAllPartners().getPartners().get(3));
 	}
 
 	private static Partner createPartner(final long id) {
