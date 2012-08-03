@@ -12,9 +12,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.boz.poc.domain.Partner;
-
 import ch.mobi.posi.common.tools.ReflectionUtils;
+
+import com.boz.poc.domain.Partner;
 
 /**
  * Test d'intégration
@@ -27,8 +27,8 @@ public class PartnerFacadeIT {
 
 	@Deployment
 	public static JavaArchive createTestArchive() {
-		return ShrinkWrap.create(JavaArchive.class, "test.jar").addClasses(PartnerFacade.class)
-				.addPackages(true, "com.boz.poc.domain", "org.joda.time").addPackages(false, "ch.mobi.posi.common.tools")
+		return ShrinkWrap.create(JavaArchive.class, "test.jar").addClasses(PartnerFacade.class, ReflectionUtils.class)
+				.addPackages(true, "com.boz.poc.domain", "org.joda.time")
 				.addAsManifestResource("test-persistence.xml", "persistence.xml").addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 
@@ -38,8 +38,6 @@ public class PartnerFacadeIT {
 	@Test
 	public void testGetAllPartners_ordered() {
 		Assert.assertNotNull(facade.getAllPartners());
-
-		System.out.println("----------------------" + facade.getAllPartners());
 
 		Assert.assertEquals(4, facade.getAllPartners().size());
 		Assert.assertEquals(createPartner(4000), facade.getAllPartners().get(0));

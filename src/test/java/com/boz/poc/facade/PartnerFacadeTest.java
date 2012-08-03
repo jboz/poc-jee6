@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Date;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -18,10 +17,11 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import ch.mobi.posi.common.tools.ReflectionUtils;
-import ch.mobi.posi.common.tools.dbunit.DBUnitRule;
-import ch.mobi.posi.common.tools.dbunit.DataSet;
-import ch.mobi.posi.common.tools.mockito.MockingRule;
 
+import com.boz.commons.test.dbunit.DBUnitRule;
+import com.boz.commons.test.dbunit.DataSet;
+import com.boz.commons.test.dbunit.InjectEntiyManager;
+import com.boz.commons.test.mockito.MockingRule;
 import com.boz.poc.domain.Partner;
 
 /**
@@ -37,7 +37,7 @@ public class PartnerFacadeTest {
 	@Rule
 	public final DBUnitRule dbUnitRule = DBUnitRule.init();
 
-	@Inject
+	@InjectEntiyManager
 	private PartnerFacade facade = new PartnerFacade();
 
 	@Before
