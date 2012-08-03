@@ -2,6 +2,7 @@ package com.boz.poc.presentation;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -24,8 +25,7 @@ import com.boz.poc.facade.PartnerFacade;
 @Produces(MediaType.APPLICATION_JSON)
 public class PartnerController {
 
-	@Inject
-	// @WebServiceRef(wsdlLocation = "http://localhost:8080/poc-jee6/PartnerFacadeService?wsdl")
+	@EJB
 	private PartnerFacade partnerFacade;
 
 	@GET

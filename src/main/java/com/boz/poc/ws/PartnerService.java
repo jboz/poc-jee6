@@ -9,7 +9,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import com.boz.poc.domain.Partner;
 import com.boz.poc.dto.Partners;
@@ -25,7 +24,7 @@ import com.boz.poc.facade.PartnerFacade;
 @HandlerChain(file = "/META-INF/handler-chain.xml")
 public class PartnerService implements IPartnerService {
 
-	@PersistenceContext
+	@Inject
 	private EntityManager em;
 
 	@EJB

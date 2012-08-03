@@ -3,8 +3,8 @@ package com.boz.poc.facade;
 import java.util.Date;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import com.boz.poc.domain.Partner;
 import com.boz.poc.dto.Partners;
@@ -17,7 +17,7 @@ import com.boz.poc.dto.Partners;
 @Stateless
 public class PartnerFacade {
 
-	@PersistenceContext
+	@Inject
 	private EntityManager em;
 
 	public Partner createPartner(final String name, final Date birthDate) {
