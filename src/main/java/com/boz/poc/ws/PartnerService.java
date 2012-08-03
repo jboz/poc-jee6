@@ -21,7 +21,7 @@ import com.boz.poc.facade.PartnerFacade;
  */
 @WebService
 @SOAPBinding(style = Style.DOCUMENT)
-//@HandlerChain(file = "/META-INF/handler-chain.xml")
+@HandlerChain(file = "/META-INF/handler-chain.xml")
 public class PartnerService implements IPartnerService {
 
 	@PersistenceContext
@@ -41,6 +41,7 @@ public class PartnerService implements IPartnerService {
 	}
 
 	@Override
+	// curl -d name=Bob -d birthDate=2000-01-01 http://localhost:8080/poc-jee6/rest/partner
 	// curl -d @ws-findPartnerByName.xml http://localhost:8080/poc-jee6/PartnerService
 	public Partner findPartnerByName(final String name) {
 		return em.createQuery("from Partner p where p.name = :name", Partner.class).setParameter("name", name).getSingleResult();

@@ -25,6 +25,12 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- log -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.jboss.spec</groupId>
 				<artifactId>jboss-javaee-6.0</artifactId>
@@ -58,12 +64,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>ch.mobi.posi</groupId>
-			<artifactId>posi_commons_tests</artifactId>
+			<artifactId>posi_commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
+					<artifactId>posi_commons_tests</artifactId>
 					<groupId>ch.mobi.posi</groupId>
-					<artifactId>posi_ejb</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -72,23 +78,7 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.1</version>
 		</dependency>
-		<!-- commons -->
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>1.3</version>
-		</dependency>
 		<!-- log -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -163,6 +153,12 @@
 			<version>2.4.8</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.javaboz</groupId>
+			<artifactId>commons-test</artifactId>
+			<version>1.2-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -208,6 +204,45 @@
 			<type>jar</type>
 		</dependency>
 
+		<!-- JAX-RS -->
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-web-6.0</artifactId>
+			<version>2.0.0.Final</version>
+			<type>pom</type>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>xalan</artifactId>
+					<groupId>org.apache.xalan</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.ws.rs</groupId>
+			<artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+			<version>1.0.0.Final</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>2.2.1.GA</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+			<version>2.2.1.GA</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>resteasy-jaxrs</artifactId>
+					<groupId>org.jboss.resteasy</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<!-- the last one -->
 		<dependency>
 			<groupId>javax</groupId>
@@ -236,14 +271,8 @@
 				<version>7.1.0.Final</version>
 			</plugin>
 			<!-- *** Surefire plugin: run unit and integration tests in separate lifecycle phases, using file name pattern *** -->
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>${integrationTestPattern}</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
+			<!-- <plugin> <artifactId>maven-surefire-plugin</artifactId> <configuration> <excludes> <exclude>${integrationTestPattern}</exclude> 
+				</excludes> </configuration> </plugin> -->
 			<!-- *** Failsafe plugin: run integration tests *** -->
 			<plugin>
 				<!-- on lance les test IT avec le plugin failsafe pour que si un test echoue, le build echoue -->
@@ -262,6 +291,35 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.4,)</versionRange>
+										<goals>
+											<goal>unpack</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 
@@ -351,6 +409,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.4</version>
 						<executions>
 							<execution>
 								<id>unpack</id>
