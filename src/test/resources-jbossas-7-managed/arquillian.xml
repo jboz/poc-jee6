@@ -9,7 +9,7 @@
 		</protocol>
 		<configuration>
 			<!-- Faster startup -->
-			<property name="javaVmArguments">-d64 -noverify -Djboss.socket.binding.port-offset=200 -Xms256m -Xmx512m -XX:MaxPermSize=256m</property>
+			<property name="javaVmArguments">-noverify -Djboss.socket.binding.port-offset=200 -Xms256m -Xmx512m -XX:MaxPermSize=256m</property>
 		</configuration>
 	</extension>
 

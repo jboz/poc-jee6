@@ -11,8 +11,8 @@
 		<class>com.boz.poc.test.MyEntity</class>
 
 		<properties>
-			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
 
 			<property name="hibernate.connection.url" value="jdbc:hsqldb:mem:poc" />
