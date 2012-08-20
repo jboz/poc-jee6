@@ -63,15 +63,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>ch.mobi.posi</groupId>
-			<artifactId>posi_commons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>posi_commons_tests</artifactId>
-					<groupId>ch.mobi.posi</groupId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.javaboz.commons</groupId>
+			<artifactId>commons</artifactId>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>

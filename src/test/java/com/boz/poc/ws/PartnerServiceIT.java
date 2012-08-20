@@ -23,12 +23,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.mobi.posi.common.tools.DateUtils;
-import ch.mobi.posi.common.tools.ReflectionUtils;
-
+import com.boz.poc.commons.Producer;
 import com.boz.poc.domain.Partner;
 import com.boz.poc.dto.Partners;
 import com.boz.poc.facade.PartnerFacade;
+import com.javaboz.commons.test.DateUtils;
+import com.javaboz.commons.test.ReflectionUtils;
 
 /**
  * Test d'intégration.
@@ -46,7 +46,7 @@ public class PartnerServiceIT {
 
 		return ShrinkWrap
 				.create(WebArchive.class, "test.war")
-				.addClasses(IPartnerService.class, PartnerService.class, PartnerFacade.class, MessageHandler.class, ReflectionUtils.class)
+				.addClasses(IPartnerService.class, PartnerService.class, PartnerFacade.class, Producer.class, MessageHandler.class, ReflectionUtils.class)
 				.addPackages(true, "com.boz.poc.domain", "com.boz.poc.dto", "org.joda.time")
 				.addAsResource("test-persistence.xml", "META-INF/persistence.xml").addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 				.addAsResource("test-handler-chain.xml", "META-INF/handler-chain.xml")
