@@ -3,7 +3,6 @@ package com.boz.poc.presentation;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.inject.Inject;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
