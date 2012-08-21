@@ -20,16 +20,16 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>ch.mobi.posi</groupId>
-			<artifactId>posi_commons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.1</version>
 		</dependency>
 		<!-- commons -->
+		<dependency>
+			<groupId>com.javaboz.commons</groupId>
+			<artifactId>commons</artifactId>
+			<version>1.0</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -119,6 +119,11 @@
 			<artifactId>dbunit</artifactId>
 			<version>2.4.8</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.javaboz</groupId>
+			<artifactId>commons-test</artifactId>
+			<version>1.2-SNAPSHOT</version>
 		</dependency>
 		<!-- hibernate -->
 		<dependency>

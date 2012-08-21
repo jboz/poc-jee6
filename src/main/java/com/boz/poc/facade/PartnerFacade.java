@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import com.boz.poc.domain.Partner;
 
@@ -19,7 +19,7 @@ import com.boz.poc.domain.Partner;
 @WebService
 public class PartnerFacade {
 
-	@PersistenceContext
+	@Inject
 	private EntityManager em;
 
 	/**
