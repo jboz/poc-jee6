@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ace="http://www.icefaces.org/icefaces/components">
+<h:head>
+	<meta charset="ISO-8859-1" />
+	<title>Flash scope - done</title>
+</h:head>
+<h:body>
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{flashBean.pullValuesFromFlash}" />
+	</f:metadata>
+	<h:messages />
+	<h:panelGrid columns="2">
+		<h:outputText value="First name:" />
+		<h:outputText value="#{flashBean.firstName}" />
+
+		<h:outputText value="Last name:" />
+		<h:outputText value="#{flashBean.lastName}" />
+	</h:panelGrid>
+	<h:link outcome="/tests/flash-input" value="Back to inputForm" />
+</h:body>
+</html>
