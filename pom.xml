@@ -16,7 +16,7 @@
 		<maven.compiler.target>${compileSource}</maven.compiler.target>
 
 		<slf4j.version>1.6.4</slf4j.version>
-
+		<ice.version>3.0.1</ice.version>
 		<arquillian.version>1.0.1.Final</arquillian.version>
 	</properties>
 
@@ -127,6 +127,37 @@
 			<artifactId>commons-test</artifactId>
 			<version>1.2-SNAPSHOT</version>
 			<scope>test</scope>
+		</dependency>
+		<!-- jsf -->
+		<dependency>
+			<groupId>org.icefaces</groupId>
+			<artifactId>icefaces</artifactId>
+			<version>${ice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.icepush</groupId>
+			<artifactId>icepush</artifactId>
+			<version>${ice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.icefaces</groupId>
+			<artifactId>icefaces-ace</artifactId>
+			<version>${ice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.icefaces</groupId>
+			<artifactId>icefaces-compat</artifactId>
+			<version>${ice.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.el</groupId>
+					<artifactId>el-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- hibernate -->
