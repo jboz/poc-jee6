@@ -11,7 +11,7 @@
 <h:body styleClass="ice-skin-rime">
 	<h:form>
 		<c:forEach items="#{surveyBean.questions}" var="question">
-			<ui:include src="/questions/#{question.code}.xhtml" />
+			<ui:include src="/static/#{question.code}.xhtml" />
 		</c:forEach>
 	</h:form>
 </h:body>

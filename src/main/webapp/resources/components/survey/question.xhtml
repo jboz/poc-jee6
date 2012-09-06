@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:posi="http://java.sun.com/jsf/composite/components/survey" xmlns:ace="http://www.icefaces.org/icefaces/components">
+
+<head>
+<title>(For validation only)</title>
+</head>
+<body>
+
+	<composite:interface displayName="Question" shortDescription="Display a question.">
+		<composite:attribute name="question" required="true" displayName="Question Bean" />
+	</composite:interface>
+
+	<composite:implementation>
+		<ui:param name="key" value="survey.#{cc.attrs.question.finalCode}" />
+
+		<ice:selectOneRadio id="globalResponse" layout="spread" value="#{cc.attrs.question.responseValue}" partialSubmit="true">
+			<f:selectItem itemLabel="#{msgs['survey.oui']}" itemValue="#{true}" />
+			<f:selectItem itemLabel="#{msgs['survey.non']}" itemValue="#{false}" />
+		</ice:selectOneRadio>
+
+		<ice:panelCollapsible id="linkPanel" expanded="#{cc.attrs.question.responseValue}">
+			<!--  -->
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText id="question" value="#{msgs[key]}" />
+					<ice:radio for="globalResponse" index="0" />
+					<ice:radio for="globalResponse" index="1" />
+				</ice:panelGroup>
+			</f:facet>
+			<h:panelGrid id="questionTextField" rendered="#{!cc.attrs.question.limitedResponse}">
+				<!-- contenu non limité au nombre de sous question -->
+				<f:facet name="header">
+					<ice:repeat value="#{cc.attrs.question.subQuestions}" var="subQuestion" varStatus="status">
+						<ui:param name="subkey" value="survey.#{subQuestion.finalCode}" />
+						<h:outputText value="#{msgs[subkey]}" />
+					</ice:repeat>
+				</f:facet>
+				<ice:repeat value="#{cc.attrs.question.subQuestions}" var="subQuestion" varStatus="status">
+				</ice:repeat>
+			</h:panelGrid>
+			<h:panelGroup rendered="#{cc.attrs.question.limitedResponse}">
+				<!-- contenu limité au nombre de sous question -->
+				<ice:repeat value="#{cc.attrs.question.subQuestions}" var="subQuestion" varStatus="status">
+					<ui:param name="subkey" value="survey.#{subQuestion.finalCode}" />
+					<ui:param name="subunit" value="survey.#{subQuestion.finalCode}.unit" />
+					<ui:param name="sublist" value="survey.#{subQuestion.finalCode}.list" />
+
+					<h:panelGroup id="questionTextField" rendered="#{cc.attrs.question.formType == 'TEXT_FIELD'}">
+						<ice:outputLabel id="textFieldLabel" for="textFieldValue" value="#{msgs[subkey]}" />
+						<ice:inputText id="textFieldValue" value="#{cc.attrs.question.responseValue}" immediate="true" partialSubmit="true" />
+						<ice:outputLabel id="textFieldUnit" for="textFieldValue" value="#{msgs[subunit]}" />
+					</h:panelGroup>
+
+				</ice:repeat>
+			</h:panelGroup>
+		</ice:panelCollapsible>
+	</composite:implementation>
+</body>
+</html>
