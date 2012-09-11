@@ -1,19 +1,31 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ace="http://www.icefaces.org/icefaces/components"
-	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:util="http://java.sun.com/jsf/composite/components" xmlns:posi="http://java.sun.com/jsf/composite/components/survey"
-	template="/resources/templates/blank.xhtml">
+	xmlns:survey="http://java.sun.com/jsf/composite/components/survey" xmlns:poc="http://java.sun.com/jsf/composite/components">
+<h:head>
+	<title>Dynamic Survey</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
+	<h:outputStylesheet name="form.css" library="css" />
+	<h:outputStylesheet name="survey.css" library="css" />
+</h:head>
+<h:body styleClass="ice-skin-rime">
+	<!-- <poc:recursiveOutput label="Hi !!">
+		<h:outputText value="ça farte" />
+	</poc:recursiveOutput>
+	<poc:recursiveOutput label="Hello" nextLabel="World">
+		<h:outputText value="!!" />
+	</poc:recursiveOutput>
 
-	<ui:define name="header">
-		<h1>Questionnaire dynamique</h1>
-	</ui:define>
-	<ui:define name="sidebar" />
-
-	<ui:define name="content">
-		<h:form>
-			<posi:question question="#{surveyBean.questions[0]}" />
-			<posi:question question="#{surveyBean.questions[1]}" />
-		</h:form>
-	</ui:define>
-</ui:composition>
+	<br />
+	<br /> -->
+	<article id="questions" class="survey">
+		<c:forEach items="#{surveyBean.questions}" var="question">
+			<section>
+				<survey:question question="#{question}" />
+			</section>
+		</c:forEach>
+	</article>
+</h:body>
+</html>
