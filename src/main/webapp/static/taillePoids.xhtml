@@ -4,6 +4,9 @@
 	xmlns:posi="http://java.sun.com/jsf/composite/components/survey" xmlns:ace="http://www.icefaces.org/icefaces/components">
 
 <ui:composition>
+	<ui:param name="taille" value="#{question.getSubQuestion('taille')}" />
+	<ui:param name="poids" value="#{question.getSubQuestion('poids')}" />
+
 	<ice:panelCollapsible expanded="true">
 		<f:facet name="header">
 			<ice:panelGroup>
@@ -12,11 +15,11 @@
 		</f:facet>
 		<h:panelGrid columns="6">
 			<ice:outputLabel for="poidsTaille_taille" value="Taille" />
-			<ice:inputText id="poidsTaille_taille" value="#{question.responses['taille']}" immediate="true" partialSubmit="true" />
+			<ice:inputText id="poidsTaille_taille" value="#{taille.firstResponse.value}" immediate="true" partialSubmit="true" />
 			<ice:outputLabel for="poidsTaille_taille" value="cm" />
 
 			<ice:outputLabel for="poidsTaille_poids" value="Poids" />
-			<ice:inputText id="poidsTaille_poids" value="#{question.responses['poids']}" immediate="true" partialSubmit="true" />
+			<ice:inputText id="poidsTaille_poids" value="#{poids.firstResponse.value}" immediate="true" partialSubmit="true" />
 			<ice:outputLabel for="poidsTaille_poids" value="kg" />
 		</h:panelGrid>
 	</ice:panelCollapsible>

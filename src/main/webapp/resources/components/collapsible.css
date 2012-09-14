@@ -1,0 +1,71 @@
+/* color black */
+.icePnlClpsblCnt, .icePnlClpsblCnt-dis {
+	color: black !important;
+}
+
+/* space at bottom */
+.icePnlClpsbl,.icePnlClpsblColpsd {
+	margin-bottom: 10px;
+}
+
+/* no header border */
+.icePnlClpsbl,.icePnlClpsblColpsd,.icePnlClpsblColpsd-dis,.icePnlClpsblHdr,.icePnlClpsblHdr-dis {
+	border: 0 !important;
+}
+/* no header background */
+.icePnlClpsblColpsdHdr,.icePnlClpsblColpsdHdr-dis,.icePnlClpsblHdr,.icePnlClpsblHdr-dis,.icePnlClpsblCnt,.icePnlClpsblCnt-dis {
+	background: #FFFFFF !important;
+}
+
+.icePnlClpsblColpsdHdr div div,.icePnlClpsblHdr div div {
+	margin: -2px 0 0 -2px !important;
+	padding: 1px 0 0 5px !important;
+}
+
+/* change icons */
+.icePnlClpsblColpsdHdr div>div {
+	background: url("/poc-jee6/resources/css/images/collapsible-off.png") no-repeat scroll 6px 6px transparent !important;
+}
+
+.icePnlClpsblHdr div>div {
+	background: url("/poc-jee6/resources/css/images/collapsible-on.png") no-repeat scroll 6px 7px transparent !important;
+}
+
+/* position of checkbox */
+.icePnlClpsblColpsdHdr div .icePnlClpsblHdrChoise,.icePnlClpsblHdr div .icePnlClpsblHdrChoise {
+	background: none;
+	float: right;
+	margin: -2px 0;
+}
+
+/* override checkbox sytle */
+.icePnlClpsblHdrChoise .switch label:after {
+	top: -7%;
+	height: 76%;
+	-moz-box-shadow: 0px 1px 4px rgba(000, 000, 000, 0.4), inset 0px 1px 1px rgba(255, 255, 255, 1);
+	-webkit-box-shadow: 0px 1px 4px rgba(000, 000, 000, 0.4), inset 0px 1px 1px rgba(255, 255, 255, 1);
+	box-shadow: 0px 1px 4px rgba(000, 000, 000, 0.4), inset 0px 1px 1px rgba(255, 255, 255, 1);
+	text-shadow: 0px -1px 0px rgba(000, 000, 000, 0), 0px 0px 0px rgba(255, 255, 255, 1);
+	-webkit-box-shadow: 0px 1px 4px rgba(000, 000, 000, 0.4), inset 0px 1px 1px rgba(255, 255, 255, 1);
+}
+
+/* override checkbox sytle */
+.icePnlClpsblHdrChoise .switch label,.icePnlClpsblHdrChoise .switch input:checked ~ label { /* color: #ffffff;
+	background: -moz-linear-gradient(top, #a3a3a3 0%, #3b3b3b 50%, #242424 50%, #000000);
+	background: -webkit-gradient(linear, left top, left bottom, from(#a3a3a3), color-stop(0.50, #3b3b3b), color-stop(0.50, #242424),
+		to(#000000) );
+	border: 1px solid #000000;
+	text-shadow: 0px -1px 0px rgba(000, 000, 000, 1), 0px 1px 0px rgba(255, 255, 255, 0.2);
+	-moz-box-shadow: 0px 1px 3px rgba(000, 000, 000, 0.5), inset 0px 0px 1px rgba(255, 255, 255, 0.6);
+	-webkit-box-shadow: 0px 1px 3px rgba(000, 000, 000, 0.5), inset 0px 0px 1px rgba(255, 255, 255, 0.6);
+	box-shadow: 0px 1px 3px rgba(000, 000, 000, 0.5), inset 0px 0px 1px rgba(255, 255, 255, 0.6); */
+	color: #3f3f3f;
+	background: -moz-linear-gradient(top, #fffefe 0%, #d9d8d3);
+	background: -webkit-gradient(linear, left top, left bottom, from(#fffefe), to(#d9d8d3) );
+	border: 0px solid #000000;
+	-moz-box-shadow: 0px 1px 4px rgba(000, 000, 000, 0.4), inset 0px 1px 1px rgba(255, 255, 255, 1);
+	-webkit-box-shadow: 0px 1px 4px rgba(000, 000, 000, 0.4), inset 0px 1px 1px rgba(255, 255, 255, 1);
+	box-shadow: 0px 1px 4px rgba(000, 000, 000, 0.4), inset 0px 1px 1px rgba(255, 255, 255, 1);
+	text-shadow: 0px -1px 0px rgba(000, 000, 000, 0), 0px 0px 0px rgba(255, 255, 255, 1);
+	-webkit-box-shadow: 0px 1px 4px rgba(000, 000, 000, 0.4), inset 0px 1px 1px rgba(255, 255, 255, 1);
+}

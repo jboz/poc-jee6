@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite" xmlns:ice="http://www.icesoft.com/icefaces/component">
+
+<head>
+<title>(For validation only)</title>
+</head>
+<body>
+	<cc:interface displayName="check">
+		<cc:attribute name="checkValue" required="true" displayName="checkValue" shortDescription="Boolean value" />
+		<cc:attribute name="id" shortDescription="Component id" />
+	</cc:interface>
+
+	<cc:implementation>
+		<h:outputStylesheet name="components/check.css" />
+
+		<h:panelGroup id="#{cc.attrs.id}_group" styleClass="switch">
+			<ice:selectBooleanCheckbox id="#{cc.attrs.id}_check" value="#{cc.attrs.checkValue}" partialSubmit="true" immediate="true">
+				<h:outputLabel for="#{cc.attrs.id}_check" value="#{msgs['survey.oui']} #{msgs['survey.non']}" />
+			</ice:selectBooleanCheckbox>
+		</h:panelGroup>
+	</cc:implementation>
+</body>
+</html>

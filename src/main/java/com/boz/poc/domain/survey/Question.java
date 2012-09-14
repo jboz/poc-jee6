@@ -2,7 +2,13 @@ package com.boz.poc.domain.survey;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 public class Question<T> implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -38,6 +44,21 @@ public class Question<T> implements Serializable {
 		return (nb < 1 ? 1 : nb) - 1;
 	}
 
+	public void setResponsesValues(final List<T> values) {
+		responses.clear();
+		for (final T value : values) {
+			addResponse().setValue(value);
+		}
+	}
+
+	public List<T> getResponsesValues() {
+		final List<T> values = new ArrayList<>();
+		for (final Response<T> response : responses) {
+			values.add(response.getValue());
+		}
+		return values;
+	}
+
 	public List<Response<T>> getResponses() {
 		return responses;
 	}
@@ -50,7 +71,22 @@ public class Question<T> implements Serializable {
 		while (responses.size() <= index) {
 			addResponse();
 		}
-		return responses.get(responses.size() - 1);
+		return responses.get(index);
+	}
+
+	public Response<?> getResponse(final String subQuestionCode, final int responseIndex) {
+		return getSubQuestion(subQuestionCode).getResponse(responseIndex);
+	}
+
+	public Response<T> getResponseByValue(final T value) {
+		if (value != null) {
+			for (final Response<T> response : responses) {
+				if (value.equals(response.getValue())) {
+					return response;
+				}
+			}
+		}
+		return null;
 	}
 
 	private Response<T> addResponse() {
@@ -89,6 +125,15 @@ public class Question<T> implements Serializable {
 		return subQuestions;
 	}
 
+	public Question<?> getSubQuestion(final String subQuestionCode) {
+		for (final Question<?> subQuestion : subQuestions) {
+			if (subQuestion.getCode().equals(subQuestionCode)) {
+				return subQuestion;
+			}
+		}
+		return null;
+	}
+
 	public void addSubQuestions(final Question<?> question) {
 		subQuestions.add(question);
 		question.parent = this;
@@ -99,10 +144,39 @@ public class Question<T> implements Serializable {
 	}
 
 	public Class<?> getResponseType() {
-		return responseType;
+		if (responseType != null) {
+			return responseType;
+		}
+		// default type
+		switch (formType) {
+			case COLLAPSIBLE:
+				return Boolean.class;
+			case CHECK:
+				return Boolean.class;
+			case DATE:
+				return Date.class;
+			default:
+				return String.class;
+		}
 	}
 
 	public void setResponseType(final Class<T> responseType) {
 		this.responseType = responseType;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("code", code).append("subQuestion", subQuestions)
+				.toString();
 	}
 }

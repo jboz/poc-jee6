@@ -1,0 +1,56 @@
+.switch {
+	width: 80px;
+	height: 25px;
+	position: relative;
+	display: block;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	text-align: center;
+}
+
+.switch label {
+	position: relative;
+	z-index: 3;
+	display: block;
+	width: 100%;
+	padding: 3px 0;
+	left: -2px;
+	background-color: #DD7E6D;
+	border: 1px solid #B15B4D;
+	border-radius: 2px 2px 2px 2px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.17) inset, 0 1px 0 rgba(255, 255, 255, 0.9);
+	color: #8F5247;
+}
+
+.switch span {
+	width: 50%;
+}
+
+.switch input {
+	position: absolute;
+	opacity: 0;
+	z-index: 5;
+}
+
+.switch label:after {
+	-moz-transition: all 0.3s ease-out 0s;
+    background-color: #F7F7F7;
+    background-image: -moz-linear-gradient(center top , #F7F7F7, #ECECEC);
+    border: 1px solid #BBBBBB;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 2px #FFFFFF inset, 0 1px 1px rgba(0, 0, 0, 0.12);
+    content: "";
+    display: block;
+    height: 71%;
+    left: -1px;
+    padding: inherit;
+    position: absolute;
+    top: -1px;
+    width: 47%;
+    z-index: 4;
+}
+
+.switch input:checked   ~ label:after {
+	left: 52%;
+}

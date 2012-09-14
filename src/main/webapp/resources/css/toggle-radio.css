@@ -1,0 +1,47 @@
+.toggle {
+	position: relative;
+	display: block;
+	padding: 4px;
+	margin: 0;
+	border: 0;
+	width: 80px;
+	background-color: #70C66B !important;
+	background-image: -moz-linear-gradient(center top, rgba(255, 255, 255, 0.2), transparent );
+	border-radius: 2px 2px 2px 2px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) inset, 0 1px 0 rgba(255, 255, 255, 0.2);
+	color: #64676B;
+	text-align: center;
+	text-shadow: 0 1px 0 #000000;
+}
+
+.toggle label {
+	position: relative;
+	z-index: 3;
+	padding: 5px;
+	cursor: pointer;
+}
+
+.toggle input {
+	background-cursor: pointer;
+	position: absolute;
+	opacity: 0;
+}
+
+/* .toggle .toggle-button { */
+.toggle input:checked  ~ label:after {
+	content: "";
+	-moz-transition: all 0.3s ease-out 0s;
+	position: absolute;
+	top: -1px;
+	height: 100%;
+	width: 120%;
+	left: -14%; /* at left by default */
+	background-color: #F7F7F7;
+	background-image: -moz-linear-gradient(center top, #F7F7F7, #ECECEC);
+	border: 1px solid #BBBBBB;
+	border-radius: 2px 2px 2px 2px;
+	box-shadow: 0 1px 2px #FFFFFF inset, 0 1px 1px rgba(0, 0, 0, 0.12);
+	display: block;
+	clear: both;
+	z-index: 4;
+}

@@ -9,10 +9,28 @@
 	<ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
 </h:head>
 <h:body styleClass="ice-skin-rime">
-	<h:form>
-		<c:forEach items="#{surveyBean.questions}" var="question">
+	<ice:form>
+		<!-- <c:forEach items="#{surveyBean.questions}" var="question">
 			<ui:include src="/static/#{question.code}.xhtml" />
-		</c:forEach>
-	</h:form>
+		</c:forEach> -->
+		<ui:include src="static/#{surveyBean.questions[0].code}.xhtml">
+			<ui:param name="question" value="#{surveyBean.questions[0]}" />
+		</ui:include>
+		<ui:include src="static/#{surveyBean.questions[2].code}.xhtml">
+			<ui:param name="question" value="#{surveyBean.questions[2]}" />
+		</ui:include>
+		<br />
+		<hr />
+		<br />
+		<h:panelGrid columns="6">
+			<ice:outputText value="Taille : " />
+			<ice:outputText value="#{surveyBean.questions[0].getSubQuestion('taille').firstResponse.value}" />
+			<ice:outputText value=" cm" />
+
+			<ice:outputText value="Poids : " />
+			<ice:outputText value="#{surveyBean.questions[0].getSubQuestion('poids').firstResponse.value}" />
+			<ice:outputText value=" kg" />
+		</h:panelGrid>
+	</ice:form>
 </h:body>
 </html>

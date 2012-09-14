@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:poc="http://java.sun.com/jsf/composite/components" xmlns:ace="http://www.icefaces.org/icefaces/components">
+
+<ui:composition>
+
+	<!-- principal question -->
+	<poc:collapsible id="question" textHeader="#{msgs['survey.sports']}" withCheck="#{!question.mandatory}"
+		checkValue="#{question.firstResponse.value}">
+
+		<ui:param name="activites" value="#{question.getSubQuestion('activite')}" />
+
+		<ice:selectManyCheckbox layout="spread" id="sports" value="#{activites.responsesValues}">
+			<f:selectItems value="#{surveyBean.valuesFromClassName('com.boz.poc.domain.survey.Sports')}" var="e" itemValue="#{e}"
+				itemLabel="#{msgs['survey.'.concat(e.declaringClass.simpleName).concat('.').concat(e.name())]}" />
+		</ice:selectManyCheckbox>
+		<ul class="sportsCheck">
+			<c:forEach items="#{surveyBean.valuesFromClassName('com.boz.poc.domain.survey.Sports')}" var="sport" varStatus="status">
+				<li><ice:checkbox for="sports" index="#{status.index}" /></li>
+			</c:forEach>
+		</ul>
+
+		<table class="table-form" style="width: 100%;">
+			<tr>
+				<th style="width: 150px;"><h:outputText value="#{msgs['survey.sports.activite']}" /></th>
+				<th><h:outputText value="#{msgs['survey.sports.frequence']}" /></th>
+				<th><h:outputText value="#{msgs['survey.sports.others']}" /></th>
+			</tr>
+			<c:forEach items="#{activites.responses}" var="activite" varStatus="status">
+				<tr>
+					<ui:include src="sports-include/#{activite.value.toString().toLowerCase()}.xhtml">
+						<ui:param name="activiteName" value="#{activite.value}" />
+						<ui:param name="index" value="#{status.index}" />
+						<ui:param name="question" value="#{question}" />
+					</ui:include>
+				</tr>
+			</c:forEach>
+		</table>
+	</poc:collapsible>
+</ui:composition>
+</html>

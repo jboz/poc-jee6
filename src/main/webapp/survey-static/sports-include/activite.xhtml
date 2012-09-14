@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html">
+
+<ui:composition>
+	<!-- template page for sports activity composition -->
+	<td><ui:insert name="activite">
+			<h:outputText value="#{msgs['survey.Sports.'.concat(activiteName)]}" />
+		</ui:insert></td>
+	<td><ui:insert name="frequence" /></td>
+	<td><ui:insert name="others" /></td>
+</ui:composition>
+</html>
