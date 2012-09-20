@@ -26,6 +26,11 @@
 			<artifactId>joda-time</artifactId>
 			<version>2.1</version>
 		</dependency>
+		<dependency>
+			<groupId>ch.mobi.posi</groupId>
+			<artifactId>posi_domains</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<!-- commons -->
 		<dependency>
 			<groupId>com.javaboz.commons</groupId>

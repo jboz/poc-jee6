@@ -49,6 +49,7 @@
 	background: #ededed;
 	background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb) );
 	background: -moz-linear-gradient(top, #ededed, #ebebeb);
+	max-width: 130px;
 }
 
 .table-form th {
@@ -133,4 +134,9 @@
 	-moz-column-count: 4;
 	-webkit-column-count: 4;
 	column-count: 4;
+}
+
+.iceSelInpDateInput,.iceInpTxt,.iceInpSecrt,.iceInpTxtArea {
+	width: 80px !important;
+	font-size: 12px;
 }

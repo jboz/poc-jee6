@@ -49,14 +49,12 @@
 				<!-- otherwise create dynamic form -->
 				<c:otherwise>
 					<c:if test="#{cc.attrs.question.parent != null}">
-						<ui:include src="question-include/simpleForm.xhtml">
-							<ui:param name="question" value="#{question}" />
-						</ui:include>
+						<poc:subQuestion response="#{question}" />
 					</c:if>
 					<c:if test="#{cc.attrs.question.parent == null}">
 
 						<!-- principal question -->
-						<poc:collapsible id="question" textHeader="#{msgs['survey.'.concat(cc.attrs.question.finalCode)]}"
+						<poc:collapsible id="#{cc.attrs.question.finalCode}" textHeader="#{msgs['survey.'.concat(cc.attrs.question.finalCode)]}"
 							withCheck="#{!cc.attrs.question.mandatory}" checkValue="#{cc.attrs.question.firstResponse.value}">
 							<!-- 2 types de contenu. Un contenu fixe (simple formulaire) et un contenu répétable (table avec possibilité d'ajouter des lignes) -->
 
@@ -71,11 +69,7 @@
 									<c:forEach end="#{cc.attrs.question.nbSubResponses}" varStatus="status">
 										<tr>
 											<ice:repeat value="#{cc.attrs.question.subQuestions}" var="subQuestion">
-												<td>
-													<ui:include src="question-include/simpleForm.xhtml">
-														<ui:param name="response" value="#{subQuestion.getResponse(status.index)}" />
-													</ui:include>
-												</td>
+												<td><poc:subQuestion response="#{subQuestion.getResponse(status.index)}" /></td>
 											</ice:repeat>
 											<td><h:outputText value="+" /></td>
 										</tr>
@@ -86,10 +80,7 @@
 							<!-- formulaire simple, une seule réponse par sous question -->
 							<c:if test="#{cc.attrs.question.multiResponse == false}">
 								<ice:repeat value="#{cc.attrs.question.subQuestions}" var="subQuestion" varStatus="status">
-									<!-- single response -->
-									<ui:include src="question-include/simpleForm.xhtml">
-										<ui:param name="response" value="#{subQuestion.firstResponse}" />
-									</ui:include>
+									<poc:subQuestion response="#{subQuestion.firstResponse}" />
 								</ice:repeat>
 							</c:if>
 						</poc:collapsible>

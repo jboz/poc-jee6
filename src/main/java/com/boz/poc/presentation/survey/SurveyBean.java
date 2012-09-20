@@ -2,6 +2,7 @@ package com.boz.poc.presentation.survey;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,14 +11,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
-import com.boz.poc.domain.survey.BrevetLicence;
-import com.boz.poc.domain.survey.FormType;
-import com.boz.poc.domain.survey.FumeFrequence;
-import com.boz.poc.domain.survey.FumeQuoi;
-import com.boz.poc.domain.survey.Localisation;
-import com.boz.poc.domain.survey.Niveau;
-import com.boz.poc.domain.survey.Question;
-import com.boz.poc.domain.survey.Sports;
+import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.BrevetLicence;
+import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.FormType;
+import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.FumeFrequence;
+import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.FumeQuoi;
+import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Localisation;
+import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Niveau;
+import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Question;
+import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Sports;
 
 @ManagedBean
 @SessionScoped
@@ -46,7 +47,22 @@ public class SurveyBean implements Serializable {
 		questions.add(createTaillePoids());
 		questions.add(createFumezVous());
 		questions.add(createMedecinTraitant());
+		questions.add(createAssurances());
 		questions.add(createSports());
+	}
+
+	private Question<?> createAssurances() {
+		final Question<String> question = createQuestion("assurances", FormType.COLLAPSIBLE, false, true);
+
+		question.addSubQuestions(createQuestion("companie", FormType.TEXT_FIELD));
+		question.addSubQuestions(createQuestion("debut", FormType.DATE, Date.class));
+		question.addSubQuestions(createQuestion("fin", FormType.DATE, Date.class));
+		question.addSubQuestions(createQuestion("deces", FormType.TEXT_FIELD, Double.class));
+		question.addSubQuestions(createQuestion("invalid", FormType.TEXT_FIELD, Double.class));
+		question.addSubQuestions(createQuestion("rente", FormType.TEXT_FIELD, Double.class));
+		question.addSubQuestions(createQuestion("indemn", FormType.TEXT_FIELD, Double.class));
+
+		return question;
 	}
 
 	private Question<?> createSports() {

@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ace="http://www.icefaces.org/icefaces/components" xmlns:posi="http://java.sun.com/jsf/composite/components">
+
+<head>
+<title>(For validation only)</title>
+</head>
+<body>
+	<cc:interface displayName="clientId">
+	</cc:interface>
+
+	<cc:implementation>
+		<h:outputText id="bar">
+			<h:outputText value="ClientId for the composite component: #{cc.clientId}" />
+			<h:outputText value="ClientId for current any component: #{component.clientId}" />
+		</h:outputText>
+	</cc:implementation>
+</body>
+</html>

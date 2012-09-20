@@ -16,9 +16,11 @@
 		<ui:param name="subunit" value="survey.#{cc.attrs.response.question.finalCode}.unit" />
 		<ui:param name="sublist" value="survey.#{cc.attrs.response.question.finalCode}.list" />
 
+		<ui:param name="rendererLabel"
+			value="#{cc.attrs.response.question.parent != null and !cc.attrs.response.question.parent.multiResponse}" />
+
 		<h:panelGroup styleClass="form" rendered="#{cc.attrs.response.question.formType == 'TEXT_FIELD'}">
-			<ice:outputLabel value="#{msgs[subkey]}"
-				rendered="#{cc.attrs.response.question.parent != null and !cc.attrs.response.question.parent.multiResponse}" />
+			<ice:outputLabel value="#{msgs[subkey]}" rendered="#{rendererLabel}" />
 			<ice:inputText value="#{cc.attrs.response.value}" immediate="true" />
 			<ice:outputLabel value="#{msgs[subunit]}" />
 		</h:panelGroup>
@@ -28,6 +30,14 @@
 				<f:selectItems value="#{surveyBean.values(cc.attrs.response.question.responseType)}" var="e" itemValue="#{e}"
 					itemLabel="#{msgs['survey.'.concat(e.declaringClass.simpleName).concat('.').concat(e.name())]}" />
 			</ice:selectOneMenu>
+		</h:panelGroup>
+
+		<h:panelGroup styleClass="form" rendered="#{cc.attrs.response.question.formType == 'DATE'}">
+			<ice:outputLabel value="#{msgs[subkey]}" rendered="#{rendererLabel}" />
+			<ice:selectInputDate value="#{cc.attrs.response.value}" immediate="true" renderAsPopup="true">
+				<f:convertDateTime pattern="#{msgs['dateFormat']}" />
+			</ice:selectInputDate>
+			<ice:outputLabel value="#{msgs[subunit]}" />
 		</h:panelGroup>
 	</cc:implementation>
 </body>

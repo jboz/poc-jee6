@@ -19,19 +19,25 @@
 
 		<ice:panelCollapsible id="#{cc.attrs.id}">
 			<f:facet name="header">
-				<ice:panelGroup id="#{cc.attrs.id}_hdr">
+				<ice:panelGroup id="header">
 					<ice:outputText value="#{cc.attrs.textHeader}" styleClass="panelHeaderStyle" />
 
 					<c:if test="#{cc.attrs.withCheck}">
-						<ice:panelGroup id="pnlHdrChoice" onclick="event.cancelBubble = true;" styleClass="icePnlClpsblHdrChoise">
-							<poc:check id="#{cc.attrs.id}_hdrChech" checkValue="#{cc.attrs.checkValue}" />
+						<ice:panelGroup id="choice" onclick="event.cancelBubble = true;" styleClass="icePnlClpsblHdrChoise">
+							<poc:check id="check" checkValue="#{cc.attrs.checkValue}" />
 						</ice:panelGroup>
 					</c:if>
 				</ice:panelGroup>
 			</f:facet>
 
-			<ice:panelGroup id="#{cc.attrs.id}_content">
+			<ice:panelGroup id="content">
 				<cc:insertChildren />
+				<!-- <script>
+					$(document.getElementById("#{component.clientId}")).hide();
+					$(document.getElementById("#{component.clientId}")).slideDown('slow', function() {
+						// Animation complete.
+					});
+				</script> -->
 			</ice:panelGroup>
 		</ice:panelCollapsible>
 	</cc:implementation>

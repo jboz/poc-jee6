@@ -13,9 +13,9 @@
 	<cc:implementation>
 		<h:outputStylesheet name="components/check.css" />
 
-		<h:panelGroup id="#{cc.attrs.id}_group" styleClass="switch">
-			<ice:selectBooleanCheckbox id="#{cc.attrs.id}_check" value="#{cc.attrs.checkValue}" partialSubmit="true" immediate="true">
-				<h:outputLabel for="#{cc.attrs.id}_check" value="#{msgs['survey.oui']} #{msgs['survey.non']}" />
+		<h:panelGroup id="#{cc.attrs.id}" styleClass="switch">
+			<ice:selectBooleanCheckbox id="checkbox" value="#{cc.attrs.checkValue}" partialSubmit="true" immediate="true">
+				<h:outputLabel for="checkbox" value="#{msgs['survey.oui']} #{msgs['survey.non']}" />
 			</ice:selectBooleanCheckbox>
 		</h:panelGroup>
 	</cc:implementation>

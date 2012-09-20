@@ -12,7 +12,7 @@
 
 		<ui:param name="activites" value="#{question.getSubQuestion('activite')}" />
 
-		<ice:selectManyCheckbox layout="spread" id="sports" value="#{activites.responsesValues}">
+		<ice:selectManyCheckbox layout="spread" id="sports" value="#{activites.responsesValues}" partialSubmit="true" immediate="true">
 			<f:selectItems value="#{surveyBean.valuesFromClassName('com.boz.poc.domain.survey.Sports')}" var="e" itemValue="#{e}"
 				itemLabel="#{msgs['survey.'.concat(e.declaringClass.simpleName).concat('.').concat(e.name())]}" />
 		</ice:selectManyCheckbox>
