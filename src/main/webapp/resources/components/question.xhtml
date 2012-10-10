@@ -42,7 +42,7 @@
       <c:choose>
         <!-- try to include static form -->
         <c:when test="#{surveyBean.staticFormExists(cc.attrs.question.code)}">
-          <ui:include src="/survey-static/#{cc.attrs.question.code}.xhtml">
+          <ui:include src="/survey-static-inDB/#{cc.attrs.question.code}.xhtml">
           <!-- <ui:include src="#{surveyBean.getStaticForm(cc.attrs.question.code)}"> -->
             <ui:param name="question" value="#{question}" />
           </ui:include>

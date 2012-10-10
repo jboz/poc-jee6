@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.jws.WebService;
 import javax.persistence.EntityManager;
 
 import com.boz.poc.domain.Partner;
@@ -16,7 +15,6 @@ import com.boz.poc.domain.Partner;
  * @author jboz
  */
 @Stateless
-@WebService
 public class PartnerFacade {
 
 	@Inject

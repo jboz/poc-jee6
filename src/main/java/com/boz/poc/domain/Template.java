@@ -1,24 +1,26 @@
 package com.boz.poc.domain;
 
+import static javax.persistence.TemporalType.TIMESTAMP;
+
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
+@Cacheable
 @NamedQuery(name = "Template.findByFileName", query = "select t from Template t where t.fileName = :fileName")
 public class Template implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -27,14 +29,15 @@ public class Template implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@NotNull
 	private String fileName;
 
+	@NotNull
 	@Temporal(TIMESTAMP)
 	private Date lastModified;
 
 	@Lob
-	@Basic(fetch = FetchType.EAGER)
-	// this gets ignored anyway, but it is recommended for blobs
+	@NotNull
 	protected byte[] template;
 
 	public Long getId() {

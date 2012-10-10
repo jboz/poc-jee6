@@ -1,6 +1,5 @@
 package com.boz.poc.presentation;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -8,6 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
 
+import com.boz.poc.facade.Producer;
 import com.sun.faces.facelets.impl.DefaultResourceResolver;
 
 /**
@@ -23,10 +23,14 @@ public class DatabaseResourceResolver extends DefaultResourceResolver {
 		}
 
 		try {
-			return new URL("internal", null, 0, path, getHandler(path));
+			return new URL("db://", "entityManager", 0, path, getHandler(path));
 		} catch (final MalformedURLException e) {
 		}
 		return null;
+	}
+
+	private static TemplateController getTemplateController() {
+		return Producer.<TemplateController> lookup("TemplateController");
 	}
 
 	private static URLStreamHandler getHandler(final String path) {
@@ -36,10 +40,10 @@ public class DatabaseResourceResolver extends DefaultResourceResolver {
 			@Override
 			protected URLConnection openConnection(final URL url) throws IOException {
 				return new URLConnection(url) {
-					
+
 					@Override
 					public long getLastModified() {
-						return super.getLastModified();
+						return getTemplateController().getLastModified(path);
 					}
 
 					@Override
@@ -48,8 +52,7 @@ public class DatabaseResourceResolver extends DefaultResourceResolver {
 
 					@Override
 					public InputStream getInputStream() throws IOException {
-						// Connect to Database and return your content
-						return new ByteArrayInputStream(new byte[] {});
+						return getTemplateController().getInputStream(path);
 					}
 
 				};
