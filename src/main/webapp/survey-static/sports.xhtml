@@ -14,7 +14,7 @@
 
 	    <poc:subQuestion question="#{activites}" styleClass="sportsCheck" hideLabel="true" />
 	    
-        <!-- <h:panelGroup rendered="#{not empty activites.responses}">
+        <h:panelGroup rendered="#{not empty activites.responses}">
     		<table class="table-form" style="width: 100%;">
     			<tr>
     				<th style="width: 150px;"><h:outputText value="#{msgs['survey.sports.activite']}" /></th>
@@ -23,7 +23,8 @@
     			</tr>
     			<c:forEach items="#{activites.responses}" var="activite" varStatus="status">
     				<tr>
-    					<ui:include src="sports-include/#{activite.value.toString().toLowerCase()}.xhtml">
+                        <!-- <td>#{activite.value}</td><td></td> -->
+    					<ui:include src="/survey-static/sports-include/#{activite.value.toString().toLowerCase()}.xhtml">
     						<ui:param name="activiteName" value="#{activite.value}" />
     						<ui:param name="index" value="#{status.index}" />
     						<ui:param name="question" value="#{question}" />
@@ -38,7 +39,7 @@
         $(function() {
           $('.libelle').equalize('width');
         });
-        </script> -->
+        </script>
 	</poc:collapsible>
 </ui:composition>
 </html>

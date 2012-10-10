@@ -53,7 +53,7 @@ public class TemplateController {
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response upload(final MultipartFormDataInput datas) throws IOException {
-		final String fileName = RestEasyUtils.getFileName("file", datas);
+		final String fileName = "/survey-static-inDB/" + RestEasyUtils.getFileName("file", datas);
 		final InputStream stream = datas.getFormDataPart("file", InputStream.class, null);
 
 		Template template = findTemplate(fileName);
@@ -61,7 +61,7 @@ public class TemplateController {
 		final boolean newOne = template == null;
 		if (template == null) {
 			template = new Template();
-			template.setFileName("/survey-static-inDB/" + fileName);
+			template.setFileName(fileName);
 		}
 		template.setTemplate(IOUtils.toByteArray(stream)); // set new stream
 		template.setLastModified(new Date()); // update last modified date

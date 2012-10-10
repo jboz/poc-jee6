@@ -2,10 +2,11 @@ package com.boz.poc.presentation;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+
+import javax.faces.FacesException;
 
 import com.boz.poc.facade.Producer;
 import com.sun.faces.facelets.impl.DefaultResourceResolver;
@@ -24,9 +25,9 @@ public class DatabaseResourceResolver extends DefaultResourceResolver {
 
 		try {
 			return new URL("db://", "entityManager", 0, path, getHandler(path));
-		} catch (final MalformedURLException e) {
+		} catch (final IOException e) {
+			throw new FacesException(e);
 		}
-		return null;
 	}
 
 	private static TemplateController getTemplateController() {
