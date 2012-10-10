@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
@@ -18,19 +19,27 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.icefaces.apache.commons.io.IOUtils;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import com.boz.poc.domain.Template;
 import com.boz.poc.facade.JPAUtils;
 
 @Path("/template")
+@ManagedBean
 @Stateless
 public class TemplateController {
+
+	public static final String BASE_URL = "/survey-static-inDB/";
 
 	@Inject
 	private EntityManager em;
 
 	private final List<String> uploads = new ArrayList<>();
+
+	public String getBaseUrl() {
+		return BASE_URL;
+	}
 
 	@GET
 	public String listUploaded() {
@@ -42,6 +51,18 @@ public class TemplateController {
 				fileName));
 	}
 
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response upload(final MultipartFormDataInput datas) throws IOException {
+
+		final List<String> filesUploaded = new ArrayList<>();
+		for (final InputPart inputPart : datas.getParts()) {
+			filesUploaded.add(uplodaFile(inputPart));
+		}
+
+		return Response.status(200).entity("file uploaded : " + filesUploaded.toString()).build();
+	}
+
 	/**
 	 * Upload a template and persit to database.<br>
 	 * Do en update if the template is already in data base.
@@ -50,15 +71,12 @@ public class TemplateController {
 	 * @return
 	 * @throws IOException
 	 */
-	@POST
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response upload(final MultipartFormDataInput datas) throws IOException {
-		final String fileName = "/survey-static-inDB/" + RestEasyUtils.getFileName("file", datas);
-		final InputStream stream = datas.getFormDataPart("file", InputStream.class, null);
+	public String uplodaFile(final InputPart inputPart) throws IOException {
+		final String fileName = BASE_URL + RestEasyUtils.getFileName(inputPart);
+		final InputStream stream = inputPart.getBody(InputStream.class, null);
 
 		Template template = findTemplate(fileName);
 
-		final boolean newOne = template == null;
 		if (template == null) {
 			template = new Template();
 			template.setFileName(fileName);
@@ -66,9 +84,10 @@ public class TemplateController {
 		template.setTemplate(IOUtils.toByteArray(stream)); // set new stream
 		template.setLastModified(new Date()); // update last modified date
 
+		System.out.println("persist : " + template);
 		em.persist(template);
 
-		return Response.status(200).entity("template " + (newOne ? "inserted" : "updated") + " : " + template).build();
+		return fileName;
 	}
 
 	public long getLastModified(final String fileName) {

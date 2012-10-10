@@ -8,7 +8,7 @@
 
 	<!-- principal question -->
 	<poc:collapsible id="sports" textHeader="#{msgs['survey.sports']}" withCheck="#{!question.mandatory}"
-		checkValue="#{question.firstResponse.value}" expanded="true">
+		checkValue="#{question.firstResponse.value}">
 
 		<ui:param name="activites" value="#{question.getSubQuestion('activite')}" />
 
@@ -24,7 +24,7 @@
     			<c:forEach items="#{activites.responses}" var="activite" varStatus="status">
     				<tr>
                         <!-- <td>#{activite.value}</td><td></td> -->
-    					<ui:include src="/survey-static/sports-include/#{activite.value.toString().toLowerCase()}.xhtml">
+    					<ui:include src="#{templateController.baseUrl}#{activite.value.toString().toLowerCase()}.xhtml">
     						<ui:param name="activiteName" value="#{activite.value}" />
     						<ui:param name="index" value="#{status.index}" />
     						<ui:param name="question" value="#{question}" />
