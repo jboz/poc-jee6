@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
+  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ace="http://www.icefaces.org/icefaces/components">
+<h:head>
+  <title>DataTable Dynamic Columns</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+  <ice:outputStyle href="#{request.contextPath}/xmlhttp/css/rime/rime.css" />
+  <h:outputStylesheet name="form.css" library="css" />
+  <h:outputStylesheet name="survey.css" library="css" />
+
+  <h:outputScript library="js" name="vendor/jquery-1.8.1.js" />
+  <h:outputScript library="js" name="equalize.js" />
+
+  <style>
+.example div {
+  float: left;
+  text-align: center;
+  background: #DDD;
+  margin: 10px;
+  padding: 10px;
+}
+</style>
+</h:head>
+<h:body>
+  <div id="width-example" class="example">
+    <div class="libelle">Example</div>
+    <div class="libelle">equalizing the width</div>
+    <div class="libelle">the</div>
+    <div class="libelle">width</div>
+  </div>
+
+  <script>
+			$(function() {
+				//$('#width-example').equalize('width');
+				$('.libelle').equalize('width');
+			});
+		</script>
+</h:body>
+</html>

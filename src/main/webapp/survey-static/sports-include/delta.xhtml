@@ -5,11 +5,15 @@
 	xmlns:poc="http://java.sun.com/jsf/composite/components" xmlns:ace="http://www.icefaces.org/icefaces/components">
 
 <ui:composition template="activite.xhtml">
-	<ui:define name="frequence">
-	    Add your content here or delete to use the default
-   	</ui:define>
-	<ui:define name="others">
-	    Add your content here or delete to use the default
-	</ui:define>
+  <ui:define name="frequence">
+    <poc:subQuestion question="#{question.getSubQuestion('nbHeureParAn')}" lineNumber="#{lineNumber}" />
+  </ui:define>
+  <ui:define name="others">
+    <poc:subQuestion question="#{question.getSubQuestion('niveau')}" lineNumber="#{lineNumber}" />
+    <poc:subQuestion question="#{question.getSubQuestion('localisation')}" lineNumber="#{lineNumber}" />
+    <poc:subQuestion question="#{question.getSubQuestion('club')}" lineNumber="#{lineNumber}" />
+    <poc:subQuestion question="#{question.getSubQuestion('brevet')}" lineNumber="#{lineNumber}" />
+    <poc:subQuestion question="#{question.getSubQuestion('participation')}" lineNumber="#{lineNumber}" />
+  </ui:define>
 </ui:composition>
 </html>

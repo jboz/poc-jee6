@@ -2,6 +2,7 @@
 	color: #666;
 	font-size: 12px;
 	padding-right: 20px;
+	float: left;
 	/*-moz-border-radius: 3px;
 	-moz-box-shadow: 0 1px 2px #d1d1d1;
 	-webkit-border-radius: 3px;
@@ -17,11 +18,29 @@
 	background: -moz-linear-gradient(top, #ededed, #ebebeb);*/
 }
 
+.form input {
+    /* space before and after input */
+	margin: 0 5px;
+}
+
+.form ul {
+    list-style: none;
+}
+
+.form .libelle {
+  display : block;
+  float: left;
+}
+
+/* ignore space after form in table */
 .table-form .form {
 	padding-right: 0px;
+    clear: both;
+    text-align: left;
 }
 
 .table-form {
+    clear: both;
 	color: #666;
 	font-size: 12px;
 	/* -moz-border-radius: 3px; */
@@ -77,7 +96,7 @@
 }
 
 .table-form tr { /*padding-left: 20px;*/
-	text-align: center
+	text-align: left;
 }
 
 /* .table-form tr:first-child th:first-child {

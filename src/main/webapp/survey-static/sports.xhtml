@@ -7,37 +7,38 @@
 <ui:composition>
 
 	<!-- principal question -->
-	<poc:collapsible id="question" textHeader="#{msgs['survey.sports']}" withCheck="#{!question.mandatory}"
-		checkValue="#{question.firstResponse.value}">
+	<poc:collapsible id="sports" textHeader="#{msgs['survey.sports']}" withCheck="#{!question.mandatory}"
+		checkValue="#{question.firstResponse.value}" expanded="true">
 
 		<ui:param name="activites" value="#{question.getSubQuestion('activite')}" />
 
-		<ice:selectManyCheckbox layout="spread" id="sports" value="#{activites.responsesValues}" partialSubmit="true" immediate="true">
-			<f:selectItems value="#{surveyBean.valuesFromClassName('com.boz.poc.domain.survey.Sports')}" var="e" itemValue="#{e}"
-				itemLabel="#{msgs['survey.'.concat(e.declaringClass.simpleName).concat('.').concat(e.name())]}" />
-		</ice:selectManyCheckbox>
-		<ul class="sportsCheck">
-			<c:forEach items="#{surveyBean.valuesFromClassName('com.boz.poc.domain.survey.Sports')}" var="sport" varStatus="status">
-				<li><ice:checkbox for="sports" index="#{status.index}" /></li>
-			</c:forEach>
-		</ul>
+	    <poc:subQuestion question="#{activites}" styleClass="sportsCheck" />
+	    
+        <h:panelGroup rendered="#{not empty activites.responses}">
+    		<table class="table-form" style="width: 100%;">
+    			<tr>
+    				<th style="width: 150px;"><h:outputText value="#{msgs['survey.sports.activite']}" /></th>
+    				<th><h:outputText value="#{msgs['survey.sports.frequence']}" /></th>
+    				<th><h:outputText value="#{msgs['survey.sports.others']}" /></th>
+    			</tr>
+    			<c:forEach items="#{activites.responses}" var="activite" varStatus="status">
+    				<tr>
+    					<ui:include src="sports-include/#{activite.value.toString().toLowerCase()}.xhtml">
+    						<ui:param name="activiteName" value="#{activite.value}" />
+    						<ui:param name="index" value="#{status.index}" />
+    						<ui:param name="question" value="#{question}" />
+                            <ui:param name="lineNumber" value="#{activite.line}" />
+    					</ui:include>
+    				</tr>
+    			</c:forEach>
+    		</table>
+        </h:panelGroup>
 
-		<table class="table-form" style="width: 100%;">
-			<tr>
-				<th style="width: 150px;"><h:outputText value="#{msgs['survey.sports.activite']}" /></th>
-				<th><h:outputText value="#{msgs['survey.sports.frequence']}" /></th>
-				<th><h:outputText value="#{msgs['survey.sports.others']}" /></th>
-			</tr>
-			<c:forEach items="#{activites.responses}" var="activite" varStatus="status">
-				<tr>
-					<ui:include src="sports-include/#{activite.value.toString().toLowerCase()}.xhtml">
-						<ui:param name="activiteName" value="#{activite.value}" />
-						<ui:param name="index" value="#{status.index}" />
-						<ui:param name="question" value="#{question}" />
-					</ui:include>
-				</tr>
-			</c:forEach>
-		</table>
+        <script>
+        $(function() {
+          $('.libelle').equalize('width');
+        });
+        </script>
 	</poc:collapsible>
 </ui:composition>
 </html>

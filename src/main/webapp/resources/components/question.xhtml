@@ -1,93 +1,98 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:composite="http://java.sun.com/jsf/composite"
-	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
-	xmlns:poc="http://java.sun.com/jsf/composite/components" xmlns:ace="http://www.icefaces.org/icefaces/components">
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:composite="http://java.sun.com/jsf/composite"
+  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
+  xmlns:poc="http://java.sun.com/jsf/composite/components" xmlns:ace="http://www.icefaces.org/icefaces/components">
 
 <head>
 <title>(For validation only)</title>
 <style>
 .icePnlClpsblColpsdHdr div {
-	background: url("../resources/css/images/collapsible-off.png") no-repeat scroll 6px 6px transparent;
-	margin: -2px 0 0 -2px;
-	padding: 1px 0 0 5px;
+  background: url("../resources/css/images/collapsible-off.png") no-repeat scroll 6px 6px transparent;
+  margin: -2px 0 0 -2px;
+  padding: 1px 0 0 5px;
 }
 
 .icePnlClpsblHdr div {
-	background: url("../resources/css/images/collapsible-on.png") no-repeat scroll 6px 7px transparent;
-	margin: -2px 0 0 -2px;
-	padding: 1px 0 0 5px;
+  background: url("../resources/css/images/collapsible-on.png") no-repeat scroll 6px 7px transparent;
+  margin: -2px 0 0 -2px;
+  padding: 1px 0 0 5px;
 }
 
 .icePnlClpsblColpsdHdr div .icePnlClpsblHdrChoise {
-	background: none;
-	float: right;
-	margin: -2px 0;
+  background: none;
+  float: right;
+  margin: -2px 0;
 }
 
 .icePnlClpsblHdr div .icePnlClpsblHdrChoise {
-	background: none;
-	float: right;
-	margin: -2px 0;
+  background: none;
+  float: right;
+  margin: -2px 0;
 }
 </style>
 </head>
 <body>
 
-	<composite:interface displayName="Question" shortDescription="Display a question.">
-		<composite:attribute name="question" required="true" displayName="Question Bean" />
-	</composite:interface>
+  <composite:interface displayName="Question" shortDescription="Display a question.">
+    <composite:attribute name="question" required="true" shortDescription="Question Bean" />
+  </composite:interface>
 
-	<composite:implementation>
-		<ice:form id="form_#{cc.attrs.question.finalCode}" partialSubmit="true">
-			<c:choose>
-				<!-- try to include static form -->
-				<c:when test="#{surveyBean.staticFormExists(cc.attrs.question.code)}">
-					<ui:include src="/survey-static/#{cc.attrs.question.code}.xhtml">
-						<ui:param name="question" value="#{question}" />
-					</ui:include>
-				</c:when>
-				<!-- otherwise create dynamic form -->
-				<c:otherwise>
-					<c:if test="#{cc.attrs.question.parent != null}">
-						<poc:subQuestion response="#{question}" />
-					</c:if>
-					<c:if test="#{cc.attrs.question.parent == null}">
+  <composite:implementation>
+    <ice:form id="form_#{cc.attrs.question.finalCode}" partialSubmit="true">
+      <c:choose>
+        <!-- try to include static form -->
+        <c:when test="#{surveyBean.staticFormExists(cc.attrs.question.code)}">
+          <ui:include src="/survey-static/#{cc.attrs.question.code}.xhtml">
+          <!-- <ui:include src="#{surveyBean.getStaticForm(cc.attrs.question.code)}"> -->
+            <ui:param name="question" value="#{question}" />
+          </ui:include>
+        </c:when>
+        <!-- otherwise create dynamic form -->
+        <c:otherwise>
 
-						<!-- principal question -->
-						<poc:collapsible id="#{cc.attrs.question.finalCode}" textHeader="#{msgs['survey.'.concat(cc.attrs.question.finalCode)]}"
-							withCheck="#{!cc.attrs.question.mandatory}" checkValue="#{cc.attrs.question.firstResponse.value}">
-							<!-- 2 types de contenu. Un contenu fixe (simple formulaire) et un contenu répétable (table avec possibilité d'ajouter des lignes) -->
+          <c:if test="#{cc.attrs.question.parent != null}">
+            <poc:subQuestion question="#{cc.attrs.question}" />
+          </c:if>
+          <c:if test="#{cc.attrs.question.parent == null}">
 
-							<!-- plusieurs réponse sont possible, formulaire dans table -->
-							<c:if test="#{cc.attrs.question.multiResponse}">
-								<table class="table-form">
-									<tr>
-										<c:forEach items="#{cc.attrs.question.subQuestions}" var="question">
-											<th><h:outputText value="#{msgs['survey.'.concat(question.finalCode)]}" /></th>
-										</c:forEach>
-									</tr>
-									<c:forEach end="#{cc.attrs.question.nbSubResponses}" varStatus="status">
-										<tr>
-											<ice:repeat value="#{cc.attrs.question.subQuestions}" var="subQuestion">
-												<td><poc:subQuestion response="#{subQuestion.getResponse(status.index)}" /></td>
-											</ice:repeat>
-											<td><h:outputText value="+" /></td>
-										</tr>
-									</c:forEach>
-								</table>
-							</c:if>
+            <!-- principal question -->
+            <poc:collapsible id="#{cc.attrs.question.finalCode}"
+              textHeader="#{msgs['survey.'.concat(cc.attrs.question.finalCode)]}" withCheck="#{!cc.attrs.question.mandatory}"
+              checkValue="#{cc.attrs.question.firstResponse.value}">
+              <!-- 2 types de contenu. Un contenu fixe (simple formulaire) et un contenu répétable (table avec possibilité d'ajouter des lignes) -->
 
-							<!-- formulaire simple, une seule réponse par sous question -->
-							<c:if test="#{cc.attrs.question.multiResponse == false}">
-								<ice:repeat value="#{cc.attrs.question.subQuestions}" var="subQuestion" varStatus="status">
-									<poc:subQuestion response="#{subQuestion.firstResponse}" />
-								</ice:repeat>
-							</c:if>
-						</poc:collapsible>
-					</c:if>
-				</c:otherwise>
-			</c:choose>
-		</ice:form>
-	</composite:implementation>
+              <!-- plusieurs réponse sont possible, formulaire dans table -->
+              <c:if test="#{cc.attrs.question.multiResponse}">
+                <table class="table-form">
+                  <tr>
+                    <c:forEach items="#{cc.attrs.question.subQuestions}" var="question">
+                      <th><h:outputText value="#{msgs['survey.'.concat(question.finalCode)]}" /></th>
+                    </c:forEach>
+                  </tr>
+                  <c:forEach end="#{cc.attrs.question.nbSubResponses}" varStatus="status">
+                    <tr>
+                      <ice:repeat value="#{cc.attrs.question.subQuestions}" var="subQuestion">
+                        <!-- specific response of the sub question -->
+                        <td><poc:subQuestion question="#{subQuestion}" lineNumber="#{status.index}" hideLabel="true" />
+                        </td>
+                      </ice:repeat>
+                      <td><h:outputText value="+" /> <h:outputText value="-" /></td>
+                    </tr>
+                  </c:forEach>
+                </table>
+              </c:if>
+
+              <!-- formulaire simple, une seule réponse par sous question -->
+              <c:if test="#{cc.attrs.question.multiResponse == false}">
+                <ice:repeat value="#{cc.attrs.question.subQuestions}" var="subQuestion" varStatus="status">
+                  <poc:subQuestion question="#{subQuestion}" />
+                </ice:repeat>
+              </c:if>
+            </poc:collapsible>
+          </c:if>
+        </c:otherwise>
+      </c:choose>
+    </ice:form>
+  </composite:implementation>
 </body>
 </html>

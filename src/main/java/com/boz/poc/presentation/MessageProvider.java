@@ -57,7 +57,7 @@ public class MessageProvider extends HashMap<String, String> {
 			}
 		} catch (final Exception e) {
 		}
-		LOGGER.debug(key + " has no bundle value !");
+		System.out.println(key + " has no bundle value !");
 		return "";
 	}
 

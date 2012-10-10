@@ -1,44 +1,75 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:cc="http://java.sun.com/jsf/composite"
-	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
-	xmlns:ace="http://www.icefaces.org/icefaces/components" xmlns:poc="http://java.sun.com/jsf/composite/components">
+  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:composite="http://java.sun.com/jsf/composite"
+  xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
+  xmlns:ace="http://www.icefaces.org/icefaces/components" xmlns:poc="http://java.sun.com/jsf/composite/components">
 
 <head>
 <title>(For validation only)</title>
 </head>
 <body>
-	<cc:interface displayName="subQuestion">
-		<cc:attribute name="response" displayName="response" />
-	</cc:interface>
+  <composite:interface displayName="subQuestion">
+    <composite:attribute name="question" shortDescription="Question to show" />
+    <composite:attribute name="lineNumber" default="0" shortDescription="Specific a response index, use the first if not defined" />
+    <composite:attribute name="styleClass" shortDescription="css class" />
+    <composite:attribute name="hideLabel" default="false" shortDescription="Masque le libellé de la question" type="boolean"/>
+  </composite:interface>
 
-	<cc:implementation>
-		<ui:param name="subkey" value="survey.#{cc.attrs.response.question.finalCode}" />
-		<ui:param name="subunit" value="survey.#{cc.attrs.response.question.finalCode}.unit" />
-		<ui:param name="sublist" value="survey.#{cc.attrs.response.question.finalCode}.list" />
+  <composite:implementation>
+    <ui:param name="response" value="#{cc.attrs.question.getResponse(lineNumber)}" />
+  
+    <ui:param name="subkey" value="survey.#{cc.attrs.question.finalCode}" />
+    <ui:param name="subunit" value="survey.#{cc.attrs.question.finalCode}.unit" />
+    <ui:param name="sublist" value="survey.#{cc.attrs.question.finalCode}.list" />
 
-		<ui:param name="rendererLabel"
-			value="#{cc.attrs.response.question.parent != null and !cc.attrs.response.question.parent.multiResponse}" />
+    <ice:panelGroup styleClass="form" rendered="#{cc.attrs.question.formType == 'TEXT_FIELD'}">
+      <ice:outputLabel styleClass="libelle" value="#{msgs[subkey]}" rendered="#{!cc.attrs.hideLabel}" />
+      <ice:inputText value="#{response.value}" immediate="true" />
+      <ice:outputLabel value="#{msgs[subunit]}" />
+    </ice:panelGroup>
 
-		<h:panelGroup styleClass="form" rendered="#{cc.attrs.response.question.formType == 'TEXT_FIELD'}">
-			<ice:outputLabel value="#{msgs[subkey]}" rendered="#{rendererLabel}" />
-			<ice:inputText value="#{cc.attrs.response.value}" immediate="true" />
-			<ice:outputLabel value="#{msgs[subunit]}" />
-		</h:panelGroup>
+    <ice:panelGroup styleClass="form" rendered="#{cc.attrs.question.formType == 'COMBO'}">
+      <ice:outputLabel styleClass="libelle" value="#{msgs[subkey]}" rendered="#{!cc.attrs.hideLabel}" />
+      <ice:selectOneMenu value="#{response.value}" immediate="true">
+        <f:selectItems value="#{surveyBean.values(cc.attrs.question.responseType)}" var="e" itemValue="#{e}"
+          itemLabel="#{msgs['survey.'.concat(e.declaringClass.simpleName).concat('.').concat(e.name())]}" />
+      </ice:selectOneMenu>
+    </ice:panelGroup>
 
-		<h:panelGroup styleClass="form" rendered="#{cc.attrs.response.question.formType == 'COMBO'}">
-			<ice:selectOneMenu value="#{cc.attrs.response.value}" immediate="true">
-				<f:selectItems value="#{surveyBean.values(cc.attrs.response.question.responseType)}" var="e" itemValue="#{e}"
-					itemLabel="#{msgs['survey.'.concat(e.declaringClass.simpleName).concat('.').concat(e.name())]}" />
-			</ice:selectOneMenu>
-		</h:panelGroup>
+    <ice:panelGroup styleClass="form" rendered="#{cc.attrs.question.formType == 'DATE'}">
+      <ice:outputLabel styleClass="libelle" value="#{msgs[subkey]}" rendered="#{!cc.attrs.hideLabel}" />
+      <ice:selectInputDate value="#{response.value}" immediate="true" renderAsPopup="true">
+        <f:convertDateTime pattern="#{msgs['dateFormat']}" />
+      </ice:selectInputDate>
+      <ice:outputLabel value="#{msgs[subunit]}" />
+    </ice:panelGroup>
 
-		<h:panelGroup styleClass="form" rendered="#{cc.attrs.response.question.formType == 'DATE'}">
-			<ice:outputLabel value="#{msgs[subkey]}" rendered="#{rendererLabel}" />
-			<ice:selectInputDate value="#{cc.attrs.response.value}" immediate="true" renderAsPopup="true">
-				<f:convertDateTime pattern="#{msgs['dateFormat']}" />
-			</ice:selectInputDate>
-			<ice:outputLabel value="#{msgs[subunit]}" />
-		</h:panelGroup>
-	</cc:implementation>
+    <ice:panelGroup styleClass="form" rendered="#{cc.attrs.question.formType == 'RADIO'}">
+      <ice:outputLabel styleClass="libelle" value="#{msgs[subkey]}" rendered="#{!cc.attrs.hideLabel}" />
+      <ice:selectOneRadio id="radio" layout="spread" value="#{response.value}" partialSubmit="true"
+        immediate="true">
+        <f:selectItems value="#{surveyBean.values(cc.attrs.question.responseType)}" var="e" itemValue="#{e}"
+          itemLabel="#{msgs['survey.'.concat(e.declaringClass.simpleName).concat('.').concat(e.name())]}" />
+      </ice:selectOneRadio>
+
+      <c:forEach items="#{surveyBean.values(cc.attrs.question.responseType)}" varStatus="status">
+        <ice:radio for="radio" index="#{status.index}" />
+      </c:forEach>
+    </ice:panelGroup>
+
+    <ice:panelGroup styleClass="form" rendered="#{cc.attrs.question.formType == 'CHECK_MULTI'}">
+      <ice:outputLabel styleClass="libelle" value="#{msgs[subkey]}" rendered="#{!cc.attrs.hideLabel}" />
+      <ice:selectManyCheckbox id="checks" layout="spread" value="#{cc.attrs.question.responsesValues}" partialSubmit="true"
+        immediate="true">
+        <f:selectItems value="#{surveyBean.values(cc.attrs.question.responseType)}" var="e" itemValue="#{e}"
+          itemLabel="#{msgs['survey.'.concat(e.declaringClass.simpleName).concat('.').concat(e.name())]}" />
+      </ice:selectManyCheckbox>
+
+      <ul class="#{cc.attrs.styleClass}">
+        <c:forEach items="#{surveyBean.values(cc.attrs.question.responseType)}" varStatus="status">
+          <li><ice:checkbox for="checks" index="#{status.index}" /></li>
+        </c:forEach>
+      </ul>
+    </ice:panelGroup>
+  </composite:implementation>
 </body>
 </html>

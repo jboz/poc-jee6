@@ -1,5 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:composite="http://java.sun.com/jsf/composite"
 	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:ace="http://www.icefaces.org/icefaces/components" xmlns:poc="http://java.sun.com/jsf/composite/components">
 
@@ -7,17 +7,18 @@
 <title>(For validation only)</title>
 </head>
 <body>
-	<cc:interface displayName="collapsible">
-		<cc:attribute name="id" displayName="Component id" default="collapsible" />
-		<cc:attribute name="textHeader" required="true" displayName="header text" />
-		<cc:attribute name="withCheck" default="true" displayName="with checkbox ?" />
-		<cc:attribute name="checkValue" displayName="checkbox value" />
-	</cc:interface>
+	<composite:interface displayName="collapsible">
+		<composite:attribute name="id" shortDescription="Component id" default="collapsible" />
+		<composite:attribute name="textHeader" required="true" shortDescription="header text" />
+		<composite:attribute name="withCheck" default="true" shortDescription="with checkbox ?" />
+		<composite:attribute name="checkValue" shortDescription="checkbox value" />
+        <composite:attribute name="expanded" />
+	</composite:interface>
 
-	<cc:implementation>
+	<composite:implementation>
 		<h:outputStylesheet name="components/collapsible.css" />
 
-		<ice:panelCollapsible id="#{cc.attrs.id}">
+		<ice:panelCollapsible id="#{cc.attrs.id}" expanded="#{cc.attrs.expanded}">
 			<f:facet name="header">
 				<ice:panelGroup id="header">
 					<ice:outputText value="#{cc.attrs.textHeader}" styleClass="panelHeaderStyle" />
@@ -31,7 +32,7 @@
 			</f:facet>
 
 			<ice:panelGroup id="content">
-				<cc:insertChildren />
+				<composite:insertChildren />
 				<!-- <script>
 					$(document.getElementById("#{component.clientId}")).hide();
 					$(document.getElementById("#{component.clientId}")).slideDown('slow', function() {
@@ -40,6 +41,6 @@
 				</script> -->
 			</ice:panelGroup>
 		</ice:panelCollapsible>
-	</cc:implementation>
+	</composite:implementation>
 </body>
 </html>

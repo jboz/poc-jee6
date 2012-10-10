@@ -1,5 +1,6 @@
 package com.boz.poc.presentation.survey;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +18,8 @@ import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.FumeFrequence;
 import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.FumeQuoi;
 import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Localisation;
 import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Niveau;
+import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.OuiNon;
+import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Participation;
 import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Question;
 import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Sports;
 
@@ -40,6 +43,11 @@ public class SurveyBean implements Serializable {
 	public boolean staticFormExists(final String questionCode) {
 		return ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext())
 				.getResourceAsStream("/survey-static/" + questionCode + ".xhtml") != null;
+	}
+
+	public InputStream getStaticForm(final String questionCode) {
+		return ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext())
+				.getResourceAsStream("/survey-static/" + questionCode + ".xhtml");
 	}
 
 	@PostConstruct
@@ -67,19 +75,20 @@ public class SurveyBean implements Serializable {
 
 	private Question<?> createSports() {
 		final Question<String> question = createQuestion("sports", FormType.COLLAPSIBLE, false, true);
-		question.addSubQuestions(createQuestion("activite", FormType.COMBO, Sports.class)); // quoi
+		question.addSubQuestions(createQuestion("activite", FormType.CHECK_MULTI, Sports.class)); // quoi
 
 		// fréquence suivant activité
 		question.addSubQuestions(createQuestion("nbPlongeParAn", FormType.TEXT_FIELD, Integer.class));
 		question.addSubQuestions(createQuestion("nbHeureParAn", FormType.TEXT_FIELD, Integer.class));
 		question.addSubQuestions(createQuestion("nbTourParAn", FormType.TEXT_FIELD, Integer.class));
 
+		// autres questions
 		question.addSubQuestions(createQuestion("profondeurMax", FormType.TEXT_FIELD, Integer.class));
 		question.addSubQuestions(createQuestion("niveau", FormType.RADIO, Niveau.class));
 		question.addSubQuestions(createQuestion("localisation", FormType.RADIO, Localisation.class));
-		question.addSubQuestions(createQuestion("club", FormType.CHECK, Boolean.class));
+		question.addSubQuestions(createQuestion("club", FormType.CHECK, OuiNon.class));
 		question.addSubQuestions(createQuestion("brevet", FormType.CHECK_MULTI, BrevetLicence.class));
-		// question.addSubQuestions(createQuestion("questions", FormType.COMBO, FumeFrequence.class)); // autres questions
+		question.addSubQuestions(createQuestion("participation", FormType.CHECK_MULTI, Participation.class));
 
 		return question;
 	}
@@ -153,6 +162,6 @@ public class SurveyBean implements Serializable {
 	}
 
 	public <T> Object[] values(final Class<T> type) {
-		return type.getEnumConstants();
+		return type == null ? null : type.getEnumConstants();
 	}
 }
