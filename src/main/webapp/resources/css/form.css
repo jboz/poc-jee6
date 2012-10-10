@@ -2,6 +2,7 @@
 	color: #666;
 	font-size: 12px;
 	padding-right: 20px;
+	padding-bottom: 5px;
 	float: left;
 	/*-moz-border-radius: 3px;
 	-moz-box-shadow: 0 1px 2px #d1d1d1;
@@ -30,6 +31,7 @@
 .form .libelle {
   display : block;
   float: left;
+  background: #EAEBEC;
 }
 
 /* ignore space after form in table */
@@ -39,18 +41,22 @@
     text-align: left;
 }
 
+.table-form .form ul {
+  display: inline-block;
+}
+
 .table-form {
     clear: both;
 	color: #666;
 	font-size: 12px;
-	/* -moz-border-radius: 3px; */
-	-moz-box-shadow: 0 1px 2px #d1d1d1;
-	/* -webkit-border-radius: 3px; */
-	-webkit-box-shadow: 0 1px 2px #d1d1d1;
 	background: #eaebec;
 	border: #ccc 1px solid;
-	/* border-radius: 3px; */
+	/*border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;*/
 	box-shadow: 0 1px 2px #d1d1d1;
+	-moz-box-shadow: 0 1px 2px #d1d1d1;
+	-webkit-box-shadow: 0 1px 2px #d1d1d1;
 	/*font-family: Arial, Helvetica, sans-serif;*/
 	text-shadow: 1px 1px 0px #fff;
 }
@@ -97,6 +103,7 @@
 
 .table-form tr { /*padding-left: 20px;*/
 	text-align: left;
+	vertical-align:top;
 }
 
 /* .table-form tr:first-child th:first-child {

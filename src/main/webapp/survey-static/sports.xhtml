@@ -12,7 +12,7 @@
 
 		<ui:param name="activites" value="#{question.getSubQuestion('activite')}" />
 
-	    <poc:subQuestion question="#{activites}" styleClass="sportsCheck" />
+	    <poc:subQuestion question="#{activites}" styleClass="sportsCheck" hideLabel="true" />
 	    
         <h:panelGroup rendered="#{not empty activites.responses}">
     		<table class="table-form" style="width: 100%;">
