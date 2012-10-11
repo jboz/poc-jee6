@@ -1,0 +1,122 @@
+body {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1280px;
+    
+  background-color: #FFFFFF;
+  font-family: 'Lato', Times, 'Times New Roman', serif;
+  font-size: 16px; 
+  color: #A64500;
+}
+
+header {
+  background-color: #FF6A00;
+  height: 50px;
+  margin: 20px 0;
+  padding: 20px;
+}
+
+nav {
+  background-color: #FFA400;
+  height: 400px;
+  width: 24%;
+  float: left;
+}
+
+ul {
+  list-style: none;
+}
+
+nav li {
+  cursor: pointer;
+}
+
+footer {
+  background-color: #FF8F40;
+  height: 50px;
+  width: 100%;
+  float: left;
+  clear: both;
+  margin: 20px 0;
+  padding: 20px;
+}
+
+#content {
+  /* background-color: WhiteSmoke; */
+  /* height: 500px; */
+  width: 75%;
+  float: right;
+  color: #FFFFFF;
+  
+  background: #5DD0C0;
+  overflow-y: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  
+  -webkit-transform-origin: 0px 50%;
+     -moz-transform-origin: 0px 50%;
+      -ms-transform-origin: 0px 50%;
+       -o-transform-origin: 0px 50%;
+          transform-origin: 0px 50%;
+  
+  -webkit-transition: all 0.5s ease;
+     -moz-transition: all 0.5s ease;
+      -ms-transition: all 0.5s ease;
+       -o-transition: all 0.5s ease;
+          transition: all 0.5s ease;
+}
+
+article {
+  margin: 20px;
+  background-color: #00A08A;
+  height: 200px;
+  width: 800px;
+}
+
+aside {
+  background-color: #FB717E;
+  height: 1200px;
+  width: 300px;
+}
+
+@media ( max-width : 1023px) {
+  nav {
+    left: -230px;
+    min-width: 250px;
+    position: absolute;
+    
+    -webkit-transition: all 1000ms cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+       -moz-transition: all 1000ms cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+        -ms-transition: all 1000ms cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+         -o-transition: all 1000ms cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+            transition: all 1000ms cubic-bezier(0.420, 0.000, 1.000, 1.000); /* ease-in */
+    
+    -webkit-transition-timing-function: cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+       -moz-transition-timing-function: cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+        -ms-transition-timing-function: cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+         -o-transition-timing-function: cubic-bezier(0.420, 0.000, 1.000, 1.000); 
+            transition-timing-function: cubic-bezier(0.420, 0.000, 1.000, 1.000); /* ease-in */
+
+    background-color: #A64500;
+    color: #FFFFFF;
+  }
+  nav:hover {
+    -webkit-transform: translateX(220px);
+    -moz-transform: translateX(220px);
+    transform: translateX(220px);
+  }
+  nav:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 18px solid tan;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    float: right;
+  }
+  #content {
+    margin-right: -30px;
+    width: 100%;
+  }
+}

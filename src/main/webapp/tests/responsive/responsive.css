@@ -1,0 +1,60 @@
+/* based on twitter bootstrap responsive specification http://twitter.github.com/bootstrap/scaffolding.html#responsive */
+.visible-phone {
+  display: none !important;
+}
+
+.visible-tablet {
+  display: none !important;
+}
+
+.hidden-desktop {
+  display: none !important;
+}
+
+.visible-desktop {
+  display: inherit !important;
+}
+
+/* Large desktop */
+@media ( min-width : 1200px) {
+}
+
+/* Portrait tablet to landscape and desktop */
+@media ( min-width : 768px) and (max-width: 1023px) {
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important ;
+  }
+  .visible-tablet {
+    display: inherit !important;
+  }
+  .hidden-tablet {
+    display: none !important;
+  }
+}
+
+/* Landscape phone to portrait tablet */
+@media ( max-width : 767px) {
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important;
+  }
+  .visible-phone {
+    display: inherit !important;
+  }
+  .hidden-phone {
+    display: none !important;
+  }
+}
+
+/* Landscape phones and down */
+@media ( max-width : 480px) {
+}
+
+/* Portrait phones */
+@media ( max-width : 320px) {
+}
