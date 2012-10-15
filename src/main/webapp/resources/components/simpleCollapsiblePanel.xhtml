@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:cc="http://java.sun.com/jsf/composite" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+  <cc:interface componentType="com.boz.poc.presentation.component.SimpleCollapsiblePanel">
+    <cc:attribute name="collapsed" type="Boolean"/>
+    <cc:actionSource name="toggle" />
+    <cc:facet name="header" />
+  </cc:interface>
+
+  <cc:implementation>
+    <h:panelGroup layout="block" styleClass="collapsiblePanel-header">
+      <h:commandButton id="toggle" actionListener="#{cc.toggle}" styleClass="collapsiblePanel-img"
+        image="#{resource[cc.collapsed ? 'components:plus.png' : 'components:minus.png']}">
+        <f:ajax render="@this panel-content" />
+      </h:commandButton>
+      <h:commandLink id="toggleText" actionListener="#{cc.toggle}">
+        <cc:renderFacet name="header" />
+      </h:commandLink>
+    </h:panelGroup>
+    <h:panelGroup id="panel-content" layout="block">
+      <h:panelGroup rendered="#{!cc.collapsed}">
+        <cc:insertChildren />
+      </h:panelGroup>
+    </h:panelGroup>
+    <h:outputStylesheet library="components" name="simpleCollapsiblePanel.css" />
+  </cc:implementation>
+
+</ui:composition>

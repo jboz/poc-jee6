@@ -1,10 +1,8 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
   xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:composite="http://java.sun.com/jsf/composite"
   xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
   xmlns:poc="http://java.sun.com/jsf/composite/components" xmlns:ace="http://www.icefaces.org/icefaces/components">
 
-<head>
-<title>(For validation only)</title>
 <style>
 .icePnlClpsblColpsdHdr div {
   background: url("../resources/css/images/collapsible-off.png") no-repeat scroll 6px 6px transparent;
@@ -30,8 +28,6 @@
   margin: -2px 0;
 }
 </style>
-</head>
-<body>
 
   <composite:interface displayName="Question" shortDescription="Display a question.">
     <composite:attribute name="question" required="true" shortDescription="Question Bean" />
@@ -56,9 +52,16 @@
           <c:if test="#{cc.attrs.question.parent == null}">
 
             <!-- principal question -->
-            <poc:collapsible id="#{cc.attrs.question.finalCode}"
-              textHeader="#{msgs['survey.'.concat(cc.attrs.question.finalCode)]}" withCheck="#{!cc.attrs.question.mandatory}"
-              checkValue="#{cc.attrs.question.firstResponse.value}">
+            <poc:collapsiblePanel id="#{cc.attrs.question.finalCode}">
+              
+              <f:facet name="header">
+                <h:outputText value="#{msgs['survey.'.concat(cc.attrs.question.finalCode)]}" />
+                <c:if test="#{!cc.attrs.question.mandatory}">
+                  <ice:panelGroup id="choice" onclick="event.cancelBubble = true;" styleClass="icePnlClpsblHdrChoise">
+                    <poc:check id="check" checkValue="#{cc.attrs.question.firstResponse.value}" />
+                  </ice:panelGroup>
+                </c:if>
+              </f:facet>
               <!-- 2 types de contenu. Un contenu fixe (simple formulaire) et un contenu répétable (table avec possibilité d'ajouter des lignes) -->
 
               <!-- plusieurs réponse sont possible, formulaire dans table -->
@@ -88,11 +91,10 @@
                   <poc:subQuestion question="#{subQuestion}" />
                 </ice:repeat>
               </c:if>
-            </poc:collapsible>
+            </poc:collapsiblePanel>
           </c:if>
         </c:otherwise>
       </c:choose>
     </ice:form>
   </composite:implementation>
-</body>
-</html>
+</ui:composition>

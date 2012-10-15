@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ace="http://www.icefaces.org/icefaces/components" xmlns:poc="http://java.sun.com/jsf/composite/components">
+
+	<cc:interface componentType="com.boz.poc.presentation.component.CollapsiblePanel">
+        <cc:attribute name="collapsed" type="Boolean" />
+        <cc:attribute name="withCheck" type="Boolean" default="false" />
+        <cc:attribute name="title" required="true" />
+        <cc:actionSource name="toggle" />
+	</cc:interface>
+
+	<cc:implementation>
+      <h:outputStylesheet library="components" name="collapsiblePanel.css" />
+
+      <h:panelGroup id="collapsiblePanel" styleClass="collapsiblePanel" layout="block">
+        <h:panelGroup id="panel-header" layout="block" styleClass="panel-header #{cc.attrs.collapsed ? 'collapsed' : 'expanded'}">
+         <h:commandLink id="toggleText" actionListener="#{cc.toggle}" value="#{cc.attrs.title}">
+            <f:ajax render="@this collapsiblePanel" />
+          </h:commandLink>
+          <poc:check id="check" checkValue="#{cc.attrs.checkValue}" styleClass="check" rendered="#{cc.attrs.withCheck}" />
+        </h:panelGroup>
+        
+          <h:panelGroup id="panel-content" style="display:none;" styleClass="panel-content" layout="block" rendered="#{!cc.collapsed}">
+            <cc:insertChildren />
+            <script>
+              $(document).ready(function() {
+                $(escapeId("##{component.clientId}")).slideDown("slow");
+              });
+            </script>
+          </h:panelGroup>
+        </h:panelGroup>
+
+		<!-- <ice:panelCollapsible id="#{cc.attrs.id}" expanded="#{cc.attrs.expanded}">
+			<f:facet name="header">
+				<ice:panelGroup id="header">
+					<cc:renderFacet name="header" />
+
+					<c:if test="#{cc.attrs.withCheck}">
+						<ice:panelGroup id="choice" onclick="event.cancelBubble = true;" styleClass="icePnlClpsblHdrChoise">
+                            <poc:check id="check" checkValue="#{cc.attrs.checkValue}" />
+						</ice:panelGroup>
+					</c:if>
+				</ice:panelGroup>
+			</f:facet>
+
+			<ice:panelGroup id="content" style="display:none;">
+				<cc:insertChildren />
+				<script>
+                    // #{component.clientId}
+					$(document.getElementById("@this content")).slideDown('slow', function() {
+						// Animation complete.
+					});
+				</script>
+			</ice:panelGroup>
+		</ice:panelCollapsible>-->
+	</cc:implementation>
+</ui:composition>

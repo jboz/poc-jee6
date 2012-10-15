@@ -1,23 +1,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:cc="http://java.sun.com/jsf/composite" xmlns:ice="http://www.icesoft.com/icefaces/component">
+  xmlns:composite="http://java.sun.com/jsf/composite" xmlns:ice="http://www.icesoft.com/icefaces/component">
 
 <head>
 <title>(For validation only)</title>
 </head>
 <body>
-	<cc:interface displayName="check">
-		<cc:attribute name="checkValue" required="true" displayName="checkValue" shortDescription="Boolean value" />
-		<cc:attribute name="id" shortDescription="Component id" />
-	</cc:interface>
+  <composite:interface displayName="check">
+    <composite:attribute name="checkValue" required="true" shortDescription="Boolean value" />
+    <composite:attribute name="styleClass" />
+  </composite:interface>
 
-	<cc:implementation>
-		<h:outputStylesheet name="components/check.css" />
+  <composite:implementation>
+    <h:outputStylesheet library="components" name="check.css" />
 
-		<h:panelGroup id="#{cc.attrs.id}" styleClass="switch">
-			<ice:selectBooleanCheckbox id="checkbox" value="#{cc.attrs.checkValue}" partialSubmit="true" immediate="true">
-				<h:outputLabel for="checkbox" value="#{msgs['survey.oui']} #{msgs['survey.non']}" />
-			</ice:selectBooleanCheckbox>
-		</h:panelGroup>
-	</cc:implementation>
+    <h:panelGroup styleClass="switch #{cc.attrs.styleClass}">
+      <ice:selectBooleanCheckbox id="checkbox" value="#{cc.attrs.checkValue}" partialSubmit="true" immediate="true">
+        <h:outputLabel for="checkbox" value="#{msgs['survey.oui']} #{msgs['survey.non']}" />
+      </ice:selectBooleanCheckbox>
+    </h:panelGroup>
+  </composite:implementation>
 </body>
 </html>
