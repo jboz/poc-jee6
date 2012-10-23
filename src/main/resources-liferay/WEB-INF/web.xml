@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+    <display-name>gui</display-name>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <!-- Many of the ICEfaces Components make use of the Resource Servlet -->
+    <servlet>
+        <servlet-name>Resource Servlet</servlet-name>
+        <servlet-class>com.icesoft.faces.webapp.CompatResourceServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <!-- Servlet to load portletspecific log4j configuration -->
+    <servlet>
+        <servlet-name>PortletLog4jInitServlet</servlet-name>
+        <servlet-class>ch.mobi.weblibs.portletconfig.PortletLog4jInitServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+
+    <context-param>
+        <param-name>com.sun.faces.expressionFactory</param-name>
+        <param-value>com.sun.el.ExpressionFactoryImpl</param-value>
+    </context-param>
+
+    <!-- ==== GENERATED-BEGIN ==== -->
+    <context-param>
+        <param-name>portlet.config.filename</param-name>
+        <param-value>portletconfig-poc-jee6.properties</param-value>
+    </context-param>
+    <context-param>
+        <param-name>portlet.log4j.config.filename</param-name>
+        <param-value>poc-jee6-log4j.xml</param-value>
+    </context-param>
+    <!-- ==== GENERATED-END ==== -->
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    <!-- These specific mappings are necessary for the Resource Servlet to function properly -->
+    <servlet-mapping>
+        <servlet-name>Resource Servlet</servlet-name>
+        <url-pattern>/xmlhttp/*</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- More efficient, in an AJAX environment, to have server side state saving -->
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>server</param-value>
+    </context-param>
+    <!-- To enable usage of jQuery in composite components -->
+    <context-param>
+        <param-name>javax.faces.SEPARATOR_CHAR</param-name>
+        <param-value>-</param-value>
+    </context-param>
+
+    <!-- HTML comments become components unless they're stripped -->
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.FACELETS_VIEW_MAPPINGS</param-name>
+        <param-value>*.xhtml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>facelets.RESOURCE_RESOLVER</param-name>
+        <param-value>com.boz.poc.presentation.DatabaseResourceResolver</param-value>
+    </context-param>
+
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
+
+</web-app>

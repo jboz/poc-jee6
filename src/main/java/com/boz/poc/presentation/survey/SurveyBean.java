@@ -56,7 +56,7 @@ public class SurveyBean implements Serializable {
 		questions.add(createFumezVous());
 		questions.add(createMedecinTraitant());
 		questions.add(createAssurances());
-		questions.add(createSports());
+		//questions.add(createSports());
 	}
 
 	private Question<?> createAssurances() {

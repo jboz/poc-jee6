@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 public class Producer {
 
 	@Produces
-	@PersistenceContext
+	@PersistenceContext(unitName = "pu-poc-jee6")
 	private EntityManager em;
 
 	@SuppressWarnings("unchecked")

@@ -52,17 +52,11 @@
           <c:if test="#{cc.attrs.question.parent == null}">
 
             <!-- principal question -->
-            <poc:collapsiblePanel id="#{cc.attrs.question.finalCode}">
+            <poc:collapsiblePanel id="#{cc.attrs.question.finalCode}" title="#{msgs['survey.'.concat(cc.attrs.question.finalCode)]}" withCheck="#{!cc.attrs.question.mandatory}">
               
-              <f:facet name="header">
-                <h:outputText value="#{msgs['survey.'.concat(cc.attrs.question.finalCode)]}" />
-                <c:if test="#{!cc.attrs.question.mandatory}">
-                  <ice:panelGroup id="choice" onclick="event.cancelBubble = true;" styleClass="icePnlClpsblHdrChoise">
-                    <poc:check id="check" checkValue="#{cc.attrs.question.firstResponse.value}" />
-                  </ice:panelGroup>
-                </c:if>
-              </f:facet>
-              <!-- 2 types de contenu. Un contenu fixe (simple formulaire) et un contenu répétable (table avec possibilité d'ajouter des lignes) -->
+              <!-- 2 types de contenu possible.
+                  Un contenu fixe (simple formulaire) 
+                  et un contenu répétable (table avec possibilité d'ajouter des lignes) -->
 
               <!-- plusieurs réponse sont possible, formulaire dans table -->
               <c:if test="#{cc.attrs.question.multiResponse}">

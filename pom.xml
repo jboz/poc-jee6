@@ -235,5 +235,26 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <!-- livrable liferay -->
+            <id>liferay</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.3</version>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <!-- set lifery configuration -->
+                                    <directory>src/main/resources-liferay</directory>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
