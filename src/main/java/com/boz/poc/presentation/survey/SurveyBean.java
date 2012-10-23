@@ -12,16 +12,16 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
-import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.BrevetLicence;
-import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.FormType;
-import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.FumeFrequence;
-import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.FumeQuoi;
-import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Localisation;
-import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Niveau;
-import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.OuiNon;
-import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Participation;
-import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Question;
-import ch.mobi.ruw.business.integration.entity.riskanalyse.survey.Sports;
+import ch.mobi.rp.business.integration.entity.survey.BrevetLicence;
+import ch.mobi.rp.business.integration.entity.survey.FormType;
+import ch.mobi.rp.business.integration.entity.survey.FumeFrequence;
+import ch.mobi.rp.business.integration.entity.survey.FumeQuoi;
+import ch.mobi.rp.business.integration.entity.survey.Localisation;
+import ch.mobi.rp.business.integration.entity.survey.Niveau;
+import ch.mobi.rp.business.integration.entity.survey.OuiNon;
+import ch.mobi.rp.business.integration.entity.survey.Participation;
+import ch.mobi.rp.business.integration.entity.survey.Question;
+import ch.mobi.rp.business.integration.entity.survey.Sports;
 
 @ManagedBean
 @SessionScoped
