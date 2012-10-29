@@ -22,6 +22,8 @@
         <ice.ee.composite.version>3.0.0.GA</ice.ee.composite.version>
         <arquillian.version>1.0.1.Final</arquillian.version>
         <resteasy.version>2.3.1.GA</resteasy.version>
+        
+        <server.liferay.deploy.dir>C:\ieu\devspace\devspace_2.1\liferay-portal-6.0\deploy</server.liferay.deploy.dir>
     </properties>
 
     <dependencies>
@@ -252,6 +254,30 @@
                                 </resource>
                             </webResources>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>war-deploy-to-liferay</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${server.liferay.deploy.dir}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${basedir}/target</directory>
+                                            <includes>
+                                                <include>*.war</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

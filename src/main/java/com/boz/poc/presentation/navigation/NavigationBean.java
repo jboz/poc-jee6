@@ -19,8 +19,8 @@ public class NavigationBean {
 	public void init() {
 		steps = new ArrayList<Step>();
 
-		addSteps("ensured");
-		addSteps("tariff");
+		addSteps("ensured", "ensuredA");
+		addSteps("tariff", "product", "prestation", "others");
 		addSteps("roles");
 		addSteps("clauses");
 		addSteps("admin");

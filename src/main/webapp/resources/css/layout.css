@@ -22,7 +22,16 @@ nav {
   width: 24%;
   max-width: 310px;
   float: left;
+  z-index: 10;
+}
+
+nav.default {
+  position: relative;
+}
+
+nav.fixed {
   position: fixed;
+  top: 0;
 }
 
 ul {
@@ -42,13 +51,10 @@ footer {
 }
 
 #content {
-  /* background-color: WhiteSmoke; */
-  /* height: 500px; */
   width: 75%;
   float: right;
   color: #FFFFFF;
   
-  background: #5DD0C0;
   overflow-y: auto;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -69,15 +75,7 @@ footer {
 
 article {
   margin: 20px;
-  background-color: #00A08A;
-  height: 200px;
-  width: 800px;
-}
-
-aside {
-  background-color: #FB717E;
-  height: 1200px;
-  width: 300px;
+  clear: both;
 }
 
 @media ( max-width : 1023px) {
