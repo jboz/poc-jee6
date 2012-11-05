@@ -1,6 +1,5 @@
 .form {
 	color: #666;
-	font-size: 12px;
 	padding-right: 20px;
 	padding-bottom: 5px;
 	float: left;
@@ -48,7 +47,6 @@
 .table-form {
     clear: both;
 	color: #666;
-	font-size: 12px;
 	background: #eaebec;
 	border: #ccc 1px solid;
 	/*border-radius: 3px;
@@ -79,7 +77,6 @@
 
 .table-form th {
 	color: #666;
-	font-size: 12px;
 	padding-left: 10px;
 	text-align: left
 }
@@ -164,5 +161,4 @@
 
 .iceSelInpDateInput,.iceInpTxt,.iceInpSecrt,.iceInpTxtArea {
 	width: 80px !important;
-	font-size: 12px;
 }
