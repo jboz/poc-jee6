@@ -17,9 +17,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.boz.commons.test.dbunit.DBUnitRule;
-import com.boz.commons.test.dbunit.DataSet;
-import com.boz.commons.test.mockito.MockingRule;
+import ch.mobi.posi.common.tools.dbunit.DBUnitRule;
+import ch.mobi.posi.common.tools.dbunit.DataSet;
+import ch.mobi.posi.common.tools.mockito.MockingRule;
+
 import com.boz.poc.domain.Partner;
 import com.javaboz.commons.test.ReflectionUtils;
 
