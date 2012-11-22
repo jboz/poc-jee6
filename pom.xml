@@ -28,11 +28,6 @@
 		</dependency>
 		<!-- commons -->
 		<dependency>
-			<groupId>com.javaboz.commons</groupId>
-			<artifactId>commons</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.4</version>
@@ -120,12 +115,6 @@
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
 			<version>2.4.8</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.javaboz</groupId>
-			<artifactId>commons-test</artifactId>
-			<version>1.2-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 
