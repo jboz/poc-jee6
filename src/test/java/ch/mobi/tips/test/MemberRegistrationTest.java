@@ -32,7 +32,7 @@ public class MemberRegistrationTest {
 	@Deployment
 	public static Archive<?> createTestArchive() {
 		return ShrinkWrap.create(WebArchive.class, "test.war").addClasses(Member.class, MemberService.class, Resources.class)
-				.addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
+				.addAsResource("test-persistence.xml", "META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 
@@ -44,7 +44,7 @@ public class MemberRegistrationTest {
 
 	@Test
 	public void testRegister() throws Exception {
-		Response response = memberRegistration.createMember("Jane Doe", "jane@mailinator.com", "2125551234");
+		final Response response = memberRegistration.createMember(null, "Jane Doe", "jane@mailinator.com", "2125551234");
 
 		assertEquals("Unexpected response status", 200, response.getStatus());
 		log.info(" New member was persisted and returned status " + response.getStatus());
@@ -53,7 +53,7 @@ public class MemberRegistrationTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testInvalidRegister() throws Exception {
-		Response response = memberRegistration.createMember("", "", "");
+		final Response response = memberRegistration.createMember(null, "", "", "");
 
 		assertEquals("Unexpected response status", 400, response.getStatus());
 		assertNotNull("response.getEntity() should not null", response.getEntity());
@@ -66,10 +66,10 @@ public class MemberRegistrationTest {
 	@SuppressWarnings("unchecked")
 	public void testDuplicateEmail() throws Exception {
 		// Register an initial user
-		memberRegistration.createMember("Jane Doe", "jane@mailinator.com", "2125551234");
+		memberRegistration.createMember(null, "Jane Doe", "jane@mailinator.com", "2125551234");
 
 		// Register a different user with the same email
-		Response response = memberRegistration.createMember("John Doe", "jane@mailinator.com", "2133551234");
+		final Response response = memberRegistration.createMember(null, "John Doe", "jane@mailinator.com", "2133551234");
 
 		assertEquals("Unexpected response status", 409, response.getStatus());
 		assertNotNull("response.getEntity() should not null", response.getEntity());

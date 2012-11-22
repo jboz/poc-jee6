@@ -84,7 +84,7 @@
 </head>
 <body>
     <div id="container" style="display:none;">
-    
+
     <section>
          <!-- New HTML5 article tag -->
         <article id="register-art" data-role="page">
@@ -102,6 +102,7 @@
 
                 <!-- For now mapping bean validation constraints from server side model is a manual task -->
                 <form name="reg" id="reg" data-ajax="false">
+                	<input hidden="true" name="id" id="id" value="" />
                     <fieldset>
                         <legend>Register a user:</legend>
                         <div>
@@ -161,6 +162,7 @@
                             <th scope="col">Email</th>
                             <th scope="col">Phone #</th>
                             <th scope="col">REST URLs</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tfoot>

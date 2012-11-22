@@ -6,6 +6,7 @@
 		<td><%=member.email%></td>
 		<td><%=member.phoneNumber%></td>
 		<td><a href="rest/members/<%=member.id%>" target="_blank" class="resturl">XML</a> / <a href="rest/members/<%=member.id%>/json" target="_blank" class="resturl">JSON</a></td>
+		<td><input type="button" name="edit_<%=member.id%>" id="edit_<%=member.id%>" value="Edit" onclick="javascript:edit(<%=member.id%>,'<%=member.name%>','<%=member.email%>','<%=member.phoneNumber%>')" /></td>
 	</tr>
 <% }); %>
 </script>

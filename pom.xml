@@ -12,15 +12,14 @@
 	<description>A Java EE 6 HTML5 mobile web application for use with JBoss, generated from the jboss-javaee6-html5-mobile-archetype</description>
 
 	<properties>
-		<!-- Explicitly declaring the source encoding eliminates the following message: -->
-		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- Timestamp format for the maven.build.timestamp property -->
-		<!-- You can reference property in pom.xml or filtered resources (must enable third-party plugin if using Maven < 2.1) -->
+
 		<javaee6.web.spec.version>2.0.0.Final</javaee6.web.spec.version>
-		<!-- Alternatively, comment out the above line, and un-comment the line below to use version 3.0.0.Beta1-redhat-1 which is a release 
-			certified to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 maven repository. -->
-		<!-- <javaee6.web.spec.version>3.0.0.Beta1-redhat-1</javaee6.web.spec.version> -->
+
+		<jboss-server.version>7.1.0.Final</jboss-server.version>
+		<jboss-jee.version>2.0.0.Final</jboss-jee.version>
+		<arquillian.version>1.0.2.Final</arquillian.version>
+		<arquillian.persistence.version>1.0.0.Alpha5</arquillian.persistence.version>
 	</properties>
 
 	<dependencyManagement>
@@ -32,6 +31,21 @@
 				<groupId>org.jboss.spec</groupId>
 				<artifactId>jboss-javaee-web-6.0</artifactId>
 				<version>${javaee6.web.spec.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- Arquillian -->
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>${arquillian.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.shrinkwrap</groupId>
+				<artifactId>shrinkwrap-bom</artifactId>
+				<version>1.0.0-cr-3</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -65,8 +79,15 @@
 
 		<!-- Import the JPA API, we use provided scope as the API is included in JBoss -->
 		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.0.1.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-envers</artifactId>
+			<version>4.0.1.Final</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -116,17 +137,24 @@
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-container</artifactId>
-			<version>1.0.0.CR7</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.jboss.arquillian.protocol</groupId>
 			<artifactId>arquillian-protocol-servlet</artifactId>
-			<version>1.0.0.CR7</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-persistence-impl</artifactId>
+			<version>${arquillian.persistence.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -181,37 +209,38 @@
 			</build>
 		</profile>
 
+		<!-- An optional Arquillian testing profile that executes tests in a JBoss AS instance depacked in target directory -->
+		<!-- This profile will start a new JBoss AS instance, and execute the test, shutting it down when done -->
+		<!-- Run with: mvn clean test -Parq-jbossas-embedded -->
 		<profile>
-			<!-- We add the JBoss repository as we need the JBoss AS connectors for Arquillian -->
-			<repositories>
-				<!-- The JBoss Community public repository is a composite repository of several major repositories -->
-				<!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
-				<repository>
-					<id>jboss-public-repository</id>
-					<name>JBoss Repository</name>
-					<url>http://repository.jboss.org/nexus/content/groups/public</url>
-					<!-- These optional flags are designed to speed up your builds by reducing remote server calls -->
-					<releases>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-			</repositories>
+			<id>arq-jbossas-embedded</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-arquillian-container-managed</artifactId>
+					<version>${jboss-server.version}</version>
+					<scope>test</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>com.google.collections</groupId>
+							<artifactId>google-collections</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+			</dependencies>
+			<build>
+				<testResources>
+					<testResource>
+						<directory>src/test/resources</directory>
+					</testResource>
+					<testResource>
+						<directory>src/test/resources-jbossas-7-embedded</directory>
+					</testResource>
+				</testResources>
+			</build>
+		</profile>
 
-			<pluginRepositories>
-				<pluginRepository>
-					<id>jboss-public-repository</id>
-					<name>JBoss Repository</name>
-					<url>http://repository.jboss.org/nexus/content/groups/public</url>
-					<releases>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
-
+		<profile>
 			<!-- An optional Arquillian testing profile that executes tests in your JBoss AS instance -->
 			<!-- This profile will start a new JBoss AS instance, and execute the test, shutting it down when done -->
 			<!-- Run with: mvn clean test -Parq-jbossas-managed -->
@@ -220,54 +249,20 @@
 				<dependency>
 					<groupId>org.jboss.as</groupId>
 					<artifactId>jboss-as-arquillian-container-managed</artifactId>
-					<version>7.1.0.CR1b</version>
+					<version>${jboss-server.version}</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
-		</profile>
-
-		<profile>
-			<!-- We add the JBoss repository as we need the JBoss AS connectors for Arquillian -->
-			<repositories>
-				<!-- The JBoss Community public repository is a composite repository of several major repositories -->
-				<!-- see http://community.jboss.org/wiki/MavenGettingStarted-Users -->
-				<repository>
-					<id>jboss-public-repository</id>
-					<name>JBoss Repository</name>
-					<url>http://repository.jboss.org/nexus/content/groups/public</url>
-					<!-- These optional flags are designed to speed up your builds by reducing remote server calls -->
-					<releases>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-			</repositories>
-
-			<pluginRepositories>
-				<pluginRepository>
-					<id>jboss-public-repository</id>
-					<name>JBoss Repository</name>
-					<url>http://repository.jboss.org/nexus/content/groups/public</url>
-					<releases>
-					</releases>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
-
-			<!-- An optional Arquillian testing profile that executes tests in a remote JBoss AS instance -->
-			<!-- Run with: mvn clean test -Parq-jbossas-remote -->
-			<id>arq-jbossas-remote</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.as</groupId>
-					<artifactId>jboss-as-arquillian-container-remote</artifactId>
-					<version>7.1.0.CR1b</version>
-					<scope>test</scope>
-				</dependency>
-			</dependencies>
+			<build>
+				<testResources>
+					<testResource>
+						<directory>src/test/resources</directory>
+					</testResource>
+					<testResource>
+						<directory>src/test/resources-jbossas-7-managed</directory>
+					</testResource>
+				</testResources>
+			</build>
 		</profile>
 
 		<profile>
