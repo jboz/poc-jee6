@@ -24,6 +24,9 @@
 			<property name="hibernate.cache.use_query_cache" value="true" />
 			<!-- expose statistics via JMX -->
 			<property name="hibernate.cache.infinispan.statistics" value="true" />
+
+			<!-- hibernate envers : http://docs.jboss.org/hibernate/core/4.0/devguide/en-US/html_single/#d0e4871 -->
+			<property name="hibernate.listeners.envers.autoRegister" value="false"/>
 		</properties>
 	</persistence-unit>
 </persistence>

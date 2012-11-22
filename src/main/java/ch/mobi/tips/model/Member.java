@@ -16,17 +16,18 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
+@Audited
 @XmlRootElement
-@Table(name = "MEMBERJBOSS", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "MEMBER", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 @NamedQueries({
-	@NamedQuery(name = "Member.all", query = "select m from Member m order by m.name"),
-	@NamedQuery(name = "Member.countEmail", query = "SELECT COUNT(b.email) FROM Member b WHERE b.email=:email and (:id is null or not b.id = :id)") })
+		@NamedQuery(name = "Member.all", query = "select m from Member m order by m.name"),
+		@NamedQuery(name = "Member.countEmail", query = "SELECT COUNT(b.email) FROM Member b WHERE b.email=:email and (:id is null or not b.id = :id)") })
 public class Member implements Serializable {
-	/** Default value included to remove warning. Remove or modify at will. **/
 	private static final long serialVersionUID = 1L;
 
 	@Id

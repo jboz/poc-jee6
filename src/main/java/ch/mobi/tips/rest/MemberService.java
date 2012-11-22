@@ -1,5 +1,6 @@
 package ch.mobi.tips.rest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +18,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,7 +29,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
+import org.hibernate.envers.DefaultRevisionEntity;
+import org.hibernate.envers.RevisionType;
 
+import ch.mobi.tips.dto.MemberHistoricDTO;
+import ch.mobi.tips.envers.HistoricManager;
 import ch.mobi.tips.model.Member;
 
 /**
@@ -46,6 +54,32 @@ public class MemberService {
 	@Inject	private EntityManager em;
 	@Inject	private Validator validator;
 	// @formatter:on
+
+	@POST
+	@Path("/historization")
+	public void toggleHistorization() {
+		HistoricManager.getInstance().toggleHistorization();
+	}
+
+	@GET
+	@Path("/historization")
+	public boolean isHistorization() {
+		return HistoricManager.getInstance().isHistorization();
+	}
+
+	@GET
+	@Path("/historics")
+	@Produces("text/xml")
+	public List<MemberHistoricDTO> listAllMembersHistorics() {
+		final AuditReader reader = AuditReaderFactory.get(em);
+
+		final List<MemberHistoricDTO> historics = new ArrayList<MemberHistoricDTO>();
+		for (final Object obj : reader.createQuery().forRevisionsOfEntity(Member.class, false, true).getResultList()) {
+			final Object[] result = (Object[]) obj;
+			historics.add(new MemberHistoricDTO((DefaultRevisionEntity) result[1], (Member) result[0], (RevisionType) result[2]));
+		}
+		return historics;
+	}
 
 	@GET
 	@Produces("text/xml")
@@ -102,10 +136,22 @@ public class MemberService {
 		return builder.build();
 	}
 
+	@DELETE
+	@Path("/{id:[0-9][0-9]*}")
+	public boolean delete(@PathParam("id") final long id) {
+		final Member member = lookupMemberById(id);
+		if (member == null) {
+			throw new IllegalArgumentException("Member with id " + id + " not found !!");
+		}
+		em.remove(member);
+
+		return true;
+	}
+
 	/**
 	 * Creates a JAX-RS "Bad Request" response including a map of all violation fields, and their message. This can then be used
 	 * by clients to show violations.
-	 * 
+	 *
 	 * @param violations A set of violations that needs to be reported
 	 * @return JAX-RS response containing all violations
 	 */
@@ -151,7 +197,7 @@ public class MemberService {
 	 * If the error is caused because an existing member with the same email is registered it throws a regular validation
 	 * exception so that it can be interpreted separately.
 	 * </p>
-	 * 
+	 *
 	 * @param member Member to be validated
 	 * @throws ConstraintViolationException If Bean Validation errors exist
 	 * @throws ValidationException If member with the same email already exists
@@ -173,7 +219,7 @@ public class MemberService {
 	/**
 	 * Checks if a member with the same email address is already registered. This is the only way to easily capture the
 	 * "@UniqueConstraint(columnNames = "email")" constraint from the Member class.
-	 * 
+	 *
 	 * @param email The email to check
 	 * @return True if the email already exists, and false otherwise
 	 */

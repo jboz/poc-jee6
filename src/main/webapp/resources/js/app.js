@@ -72,11 +72,38 @@ function registerMember(formValues) {
 }
 
 /**
- * Initialize regiser form with member values.
+ * Initialize register form with member values.
  */
 function edit(id, name, email, phoneNumber) {
 	$("#id").val(id);
 	$("#name").val(name);
 	$("#email").val(email);
 	$("#phoneNumber").val(phoneNumber);
+}
+
+/**
+ * Delete member.
+ */
+function remove(id) {
+	$.ajax({
+		url : "rest/members/" + id,
+		cache : false,
+		type : "DELETE",
+		success : function(data) {
+			updateMemberTable();
+		},
+		error : function(error) {
+			// console.log("error updating table -" + error.status);
+		}
+	});
+}
+
+function showHistorizationStatus() {
+	$.getJSON('rest/members/historization', function(data) {
+		if (data) {
+			$("#toggleHistorization").val("Disable Historization");
+		} else {
+			$("#toggleHistorization").val("Enable Historization");
+		}
+	});
 }
