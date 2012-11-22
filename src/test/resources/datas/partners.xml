@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<dataset>
-	<Partner id="1000" name="Pierre" birthDate="1982-01-05" />
-	<Partner id="2000" name="Stephen" birthDate="1960-01-05" />
-	<Partner id="3000" name="Capri" birthDate="1975-05-05" />
-	<Partner id="4000" name="April" birthDate="1960-01-05" />
-</dataset>

@@ -1,26 +1,10 @@
-# global #
-######################
-*.log
-
-# Java.gitignore #
-######################
-#*.class #comment for .metadata contents               
-
-# Maven.gitignore #
-######################
+*~
+.classpath
+.project
 target
-
-# SVN.gitignore #
-######################
-.svn
-        
-# Eclipse.gitignore #
-######################
-bin/**
-tmp/**
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-
+.settings
+.DS_Store
+.faces-config.xml.jsfdia
+MANIFEST.MF
+.idea
+*.iml
