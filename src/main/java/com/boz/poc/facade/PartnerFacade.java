@@ -34,9 +34,7 @@ public class PartnerFacade {
 		partner.setName(name);
 		partner.setBirthDate(birthDate);
 
-		em.persist(partner);
-
-		return partner;
+		return saveOrUpdate(partner);
 	}
 
 	/**
@@ -44,5 +42,10 @@ public class PartnerFacade {
 	 */
 	public List<Partner> getAllPartners() {
 		return em.createQuery("from Partner order by birthDate, name", Partner.class).getResultList();
+	}
+
+	public Partner saveOrUpdate(final Partner partner) {
+		em.merge(partner);
+		return partner;
 	}
 }

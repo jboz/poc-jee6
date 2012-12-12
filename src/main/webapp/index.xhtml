@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="ISO-8859-1" />
+	<title>POC JEE6</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:growl id="messages" showDetail="true" />
+
+		<p:panel id="panel" header="New Person" style="margin-bottom:10px;">
+			<h:panelGrid columns="3">
+				<h:inputHidden id="id" value="#{partnerBean.partner.id}" />
+
+				<h:outputLabel for="name" value="Name: *" />
+				<p:inputText id="name" value="#{partnerBean.partner.name}" required="true" label="Name">
+					<f:validateLength minimum="2" />
+				</p:inputText>
+				<p:message for="name" />
+
+				<h:outputLabel for="birthDate" value="Birth date: *" />
+				<p:calendar id="birthDate" value="#{partnerBean.partner.birthDate}" required="true" label="Birth date" pattern="dd/MM/yyyy" />
+				<p:message for="birthDate" />
+			</h:panelGrid>
+		</p:panel>
+
+		<p:commandButton value="Save" update="panel,partners" id="save" actionListener="#{partnerBean.savePartner}" icon="ui-icon-disk"
+			process="@form" />
+
+		<p:dataTable var="partner" value="#{partnerBean.partners}" id="partners">
+			<p:ajax event="rowEdit" listener="#{partnerBean.onEdit}" update=":form:messages" />
+			<p:ajax event="rowEditCancel" listener="#{partnerBean.onCancel}" update=":form:messages" />
+
+			<p:column headerText="Id" style="width:125px">
+				<h:outputText value="#{partner.id}" />
+			</p:column>
+
+			<p:column headerText="Name" style="width:125px">
+				<h:outputText value="#{partner.name}" />
+			</p:column>
+
+			<p:column headerText="Birth date" style="width:125px">
+				<h:outputText value="#{partner.birthDate}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText="Edition" style="width:20px">
+				<p:commandButton value="Edit" update=":form:panel" id="edit" process="@this" icon="ui-icon-edit" title="Edit partner">
+					<f:setPropertyActionListener value="#{partner}" target="#{partnerBean.partner}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+
+		<!-- <p:dataTable var="partner" value="#{partnerBean.partners}" id="partners" editable="true">
+			<p:ajax event="rowEdit" listener="#{partnerBean.onEdit}" update=":form:messages" />
+			<p:ajax event="rowEditCancel" listener="#{partnerBean.onCancel}" update=":form:messages" />
+
+			<p:column headerText="Id" style="width:125px">
+				<h:outputText value="#{partner.id}" />
+			</p:column>
+
+			<p:column headerText="Name" style="width:125px">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{partner.name}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{partner.name}" style="width:100%" required="true">
+							<f:validateLength minimum="2" />
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Birth date" style="width:125px">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{partner.birthDate}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:calendar value="#{partner.birthDate}" style="width:100%" required="true" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Edition" style="width:20px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable> -->
+	</h:form>
+
+</h:body>
+</html>
