@@ -6,7 +6,8 @@
 	<persistence-unit name="primary">
 		<!-- If you are running in a production environment, add a managed data source, the example data source is just for proofs of concept! -->
 
-		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+		<!-- <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source> -->
+		<jta-data-source>java:jboss/datasources/DB2DS-local-test</jta-data-source>
 
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 

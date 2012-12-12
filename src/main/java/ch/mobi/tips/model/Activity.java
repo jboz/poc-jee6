@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -21,6 +22,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "ACTIVITY")
 @NamedQueries({ @NamedQuery(name = "Activity.all", query = "select a from Activity a order by a.name asc"),
 		@NamedQuery(name = "Activity.byIds", query = "select a from Activity a where a.id in :ids") })
+@Audited
 public class Activity implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -30,12 +30,9 @@ import com.google.common.collect.Lists;
 @Stateless
 public class MemberFacade {
 
-	@Inject
-	private Logger log;
-	@Inject
-	private EntityManager em;
-	@Inject
-	private Validator validator;
+	@Inject	private Logger log;
+	@Inject	private EntityManager em;
+	@Inject	private Validator validator;
 
 	public List<Activity> getActivities() {
 		return em.createNamedQuery("Activity.all", Activity.class).getResultList();

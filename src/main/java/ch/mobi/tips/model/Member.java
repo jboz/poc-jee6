@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -40,7 +39,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "MEMBER", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 @NamedQueries({
 		@NamedQuery(name = "Member.all", query = "select distinct m from Member m left join fetch m.activities order by m.name"),
-		@NamedQuery(name = "Member.countEmail", query = "SELECT COUNT(m.email) FROM Member m WHERE m.email=:email and (:id is null or not m.id = :id)"),
+		@NamedQuery(name = "Member.countEmail", query = "select count(m.email) from Member m where m.email=:email and (:id is null or not m.id = :id)"),
 		@NamedQuery(name = "Member.byId", query = "select m from Member m left join fetch m.activities where m.id = :id") })
 // active audit feature
 @Audited
@@ -76,7 +75,7 @@ public class Member implements Serializable {
 	// audit many to many
 	// @AuditJoinTable
 	// audit association but not target
-	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+	//@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 	@XmlElementWrapper(name = "activities")
 	@XmlElement(name = "activity")
 	private Set<Activity> activities = new HashSet<Activity>();
