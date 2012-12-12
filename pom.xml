@@ -53,6 +53,16 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>13.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
 
 		<!-- First declare the APIs we depend on and need for compilation. All of them are provided by JBoss -->
 
@@ -149,11 +159,6 @@
 			<artifactId>arquillian-persistence-impl</artifactId>
 			<version>${arquillian.persistence.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
 		</dependency>
 	</dependencies>
 

@@ -79,11 +79,13 @@
                     });
 
                     $("#toggleHistorization").click(function(event) {
-                    	$.post("rest/members/historization", new function(){
+                    	$.post("rest/members/historization", function(){
                             showHistorizationStatus();
                         });
                     });
                     showHistorizationStatus();
+
+                    initActivities();
                 });
             }
         }]);
@@ -123,10 +125,13 @@
 								<label for="phoneNumber">Phone #:</label> <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{10,12}"
 									placeholder="Your Phone #" required />
 							</div>
+							<div>
+								<label for="phoneNumber">Activities :</label><select id="activities" name="activities" multiple="multiple" required></select>
+							</div>
 							<div id="formMsgs"></div>
 							<div data-role="controlgroup" data-type="horizontal">
-								<input type="submit" name="register" id="register" value="Register" /> <input type="button" name="cancel" id="cancel"
-									value="Cancel" />
+								<input type="submit" name="register" id="register" value="Register" />
+								<input type="button" name="cancel" id="cancel" value="Cancel" />
 							</div>
 						</fieldset>
 					</form>
@@ -168,6 +173,7 @@
 								<th scope="col">Name</th>
 								<th scope="col">Email</th>
 								<th scope="col">Phone #</th>
+								<th scope="col">Activities</th>
 								<th scope="col">REST URLs</th>
 								<th scope="col"></th>
 								<th scope="col"></th>
@@ -201,6 +207,7 @@
 			<!-- New HTML5 aside tag -->
 			<aside id="info-aside" data-role="page">
 				<input id="toggleHistorization" type="button" value="Toggle Historization" />
+				<a href="rest/members/historics" target="_blank">Historics</a>
 				<!-- Header -->
 				<div data-role="header" data-theme="a" class="header">
 					<h3>Find out more</h3>

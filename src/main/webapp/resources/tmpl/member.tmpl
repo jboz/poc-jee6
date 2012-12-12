@@ -5,9 +5,13 @@
 		<td><%=member.name%></td>
 		<td><%=member.email%></td>
 		<td><%=member.phoneNumber%></td>
+		<td><select><% _.each(member.activities, function(activity) { %>
+			<option value="<%=activity.id%>"><%=activity.name%></option><% }); %>
+		</select></td>
 		<td><a href="rest/members/<%=member.id%>" target="_blank" class="resturl">XML</a> / <a href="rest/members/<%=member.id%>/json" target="_blank" class="resturl">JSON</a></td>
-		<td><input type="button" name="edit_<%=member.id%>" id="edit_<%=member.id%>" value="Edit" onclick="javascript:edit(<%=member.id%>,'<%=member.name%>','<%=member.email%>','<%=member.phoneNumber%>')" /></td>
-		<td><input type="button" name="remove_<%=member.id%>" id="remove_<%=member.id%>" value="Remove" onclick="javascript:remove(<%=member.id%>)" /></td>
+		<td><input type="button" name="edit_<%=member.id%>" id="edit_<%=member.id%>" value="Edit" onclick="javascript:editMember(<%=member.id%>)" /></td>
+		<td><input type="button" name="remove_<%=member.id%>" id="remove_<%=member.id%>" value="Remove" onclick="javascript:removeMember(<%=member.id%>)" /></td>
+		<td><input type="button" name="quit_<%=member.id%>" id="quit_<%=member.id%>" value="Quit" onclick="javascript:quitMember(<%=member.id%>)" /></td>
 	</tr>
 <% }); %>
 </script>

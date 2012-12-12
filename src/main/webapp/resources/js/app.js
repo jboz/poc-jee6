@@ -74,17 +74,24 @@ function registerMember(formValues) {
 /**
  * Initialize register form with member values.
  */
-function edit(id, name, email, phoneNumber) {
-	$("#id").val(id);
-	$("#name").val(name);
-	$("#email").val(email);
-	$("#phoneNumber").val(phoneNumber);
+function editMember(id) {
+	$.getJSON("rest/members/" + id + "/json", function(member) {
+		$("#id").val(member.id);
+		$("#name").val(member.name);
+		$("#email").val(member.email);
+		$("#phoneNumber").val(member.phoneNumber);
+		var selections = "";
+		$(member.activities).each(function(index) {
+			selections += member.activities[index].id + ",";
+		});
+		$("#activities").val(selections.split(","));
+	});
 }
 
 /**
  * Delete member.
  */
-function remove(id) {
+function removeMember(id) {
 	$.ajax({
 		url : "rest/members/" + id,
 		cache : false,
@@ -105,5 +112,24 @@ function showHistorizationStatus() {
 		} else {
 			$("#toggleHistorization").val("Enable Historization");
 		}
+	});
+}
+
+function initActivities() {
+	$.getJSON("rest/members/activities", function(activities) {
+		$.each(activities, function(index) {
+			$("#activities").append("<option value='" + activities[index].id + "'>" + activities[index].name + "</option>");
+		});
+	});
+}
+
+function quitMember(id) {
+
+	$.post("rest/members/quit/" + id, function(data) {
+		// mark success
+
+		updateMemberTable();
+	}).error(function(error) {
+		// mark unsuccess
 	});
 }

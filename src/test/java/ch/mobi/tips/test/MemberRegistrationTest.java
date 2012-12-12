@@ -24,7 +24,7 @@ import ch.mobi.tips.util.Resources;
 
 /**
  * Uses Arquilian to test the JAX-RS processing class for member registration.
- * 
+ *
  * @author balunasj
  */
 @RunWith(Arquillian.class)
@@ -44,7 +44,7 @@ public class MemberRegistrationTest {
 
 	@Test
 	public void testRegister() throws Exception {
-		final Response response = memberRegistration.createMember(null, "Jane Doe", "jane@mailinator.com", "2125551234");
+		final Response response = memberRegistration.createMember(null, "Jane Doe", "jane@mailinator.com", "2125551234", null);
 
 		assertEquals("Unexpected response status", 200, response.getStatus());
 		log.info(" New member was persisted and returned status " + response.getStatus());
@@ -53,7 +53,7 @@ public class MemberRegistrationTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testInvalidRegister() throws Exception {
-		final Response response = memberRegistration.createMember(null, "", "", "");
+		final Response response = memberRegistration.createMember(null, "", "", "", null);
 
 		assertEquals("Unexpected response status", 400, response.getStatus());
 		assertNotNull("response.getEntity() should not null", response.getEntity());
@@ -66,10 +66,10 @@ public class MemberRegistrationTest {
 	@SuppressWarnings("unchecked")
 	public void testDuplicateEmail() throws Exception {
 		// Register an initial user
-		memberRegistration.createMember(null, "Jane Doe", "jane@mailinator.com", "2125551234");
+		memberRegistration.createMember(null, "Jane Doe", "jane@mailinator.com", "2125551234", null);
 
 		// Register a different user with the same email
-		final Response response = memberRegistration.createMember(null, "John Doe", "jane@mailinator.com", "2133551234");
+		final Response response = memberRegistration.createMember(null, "John Doe", "jane@mailinator.com", "2133551234", null);
 
 		assertEquals("Unexpected response status", 409, response.getStatus());
 		assertNotNull("response.getEntity() should not null", response.getEntity());

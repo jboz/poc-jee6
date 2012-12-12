@@ -6,8 +6,7 @@
 	<persistence-unit name="primary">
 		<!-- If you are running in a production environment, add a managed data source, the example data source is just for proofs of concept! -->
 
-		<!-- <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source> -->
-		<jta-data-source>java:jboss/datasources/DB2DS-local-test</jta-data-source>
+		<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
 
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
 
@@ -20,13 +19,14 @@
 			<property name="hibernate.format_sql" value="true" />
 
 			<!-- enable cache -->
-			<property name="hibernate.cache.use_second_level_cache" value="true" />
-			<property name="hibernate.cache.use_query_cache" value="true" />
+			<!-- <property name="hibernate.cache.use_second_level_cache" value="true" />
+			<property name="hibernate.cache.use_query_cache" value="true" /> -->
 			<!-- expose statistics via JMX -->
-			<property name="hibernate.cache.infinispan.statistics" value="true" />
+			<!-- <property name="hibernate.cache.infinispan.statistics" value="true" /> -->
 
 			<!-- hibernate envers : http://docs.jboss.org/hibernate/core/4.0/devguide/en-US/html_single/#d0e4871 -->
-			<property name="hibernate.listeners.envers.autoRegister" value="false"/>
+			<!-- <property name="hibernate.listeners.envers.autoRegister" value="false"/> -->
+			<!-- <property name="org.hibernate.envers.track_entities_changed_in_revision" value="true"/> -->
 		</properties>
 	</persistence-unit>
 </persistence>

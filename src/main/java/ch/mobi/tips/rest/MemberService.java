@@ -1,22 +1,18 @@
 package ch.mobi.tips.rest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.ejb.Stateful;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
-import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -29,13 +25,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.envers.AuditReader;
-import org.hibernate.envers.AuditReaderFactory;
-import org.hibernate.envers.DefaultRevisionEntity;
-import org.hibernate.envers.RevisionType;
 
 import ch.mobi.tips.dto.MemberHistoricDTO;
-import ch.mobi.tips.envers.HistoricManager;
+import ch.mobi.tips.facade.MemberFacade;
+import ch.mobi.tips.model.Activity;
 import ch.mobi.tips.model.Member;
 
 /**
@@ -45,46 +38,43 @@ import ch.mobi.tips.model.Member;
  */
 @Path("/members")
 @RequestScoped
-@Stateful
 public class MemberService {
 
 	// @formatter:off
+	@EJB	private MemberFacade facade;
 	@Inject	private Event<Member> memberEventSrc;
 	@Inject	private Logger log;
-	@Inject	private EntityManager em;
-	@Inject	private Validator validator;
 	// @formatter:on
+
+	@GET
+	@Path("/activities")
+	public List<Activity> getActivities() {
+		return facade.getActivities();
+	}
 
 	@POST
 	@Path("/historization")
 	public void toggleHistorization() {
-		HistoricManager.getInstance().toggleHistorization();
+		facade.toggleHistorization();
 	}
 
 	@GET
 	@Path("/historization")
 	public boolean isHistorization() {
-		return HistoricManager.getInstance().isHistorization();
+		return facade.isHistorization();
 	}
 
 	@GET
 	@Path("/historics")
-	@Produces("text/xml")
+	@Produces(MediaType.APPLICATION_XML)
 	public List<MemberHistoricDTO> listAllMembersHistorics() {
-		final AuditReader reader = AuditReaderFactory.get(em);
-
-		final List<MemberHistoricDTO> historics = new ArrayList<MemberHistoricDTO>();
-		for (final Object obj : reader.createQuery().forRevisionsOfEntity(Member.class, false, true).getResultList()) {
-			final Object[] result = (Object[]) obj;
-			historics.add(new MemberHistoricDTO((DefaultRevisionEntity) result[1], (Member) result[0], (RevisionType) result[2]));
-		}
-		return historics;
+		return facade.listAllMembersHistorics();
 	}
 
 	@GET
-	@Produces("text/xml")
+	@Produces(MediaType.APPLICATION_XML)
 	public List<Member> listAllMembers() {
-		return em.createNamedQuery("Member.all", Member.class).getResultList();
+		return facade.listAllMembers();
 	}
 
 	@GET
@@ -96,9 +86,9 @@ public class MemberService {
 
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
-	@Produces("text/xml")
+	@Produces(MediaType.APPLICATION_XML)
 	public Member lookupMemberById(@PathParam("id") final long id) {
-		return em.find(Member.class, id);
+		return facade.lookupMemberById(id);
 	}
 
 	@GET
@@ -109,14 +99,25 @@ public class MemberService {
 	}
 
 	@POST
+	@Path("/quit/{id:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response quitMember(@PathParam("id") final Long id) throws Exception {
+		facade.quitMember(id);
+		return Response.ok().build();
+	}
+
+	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createMember(@FormParam("id") final String id, @FormParam("name") final String name,
-			@FormParam("email") final String email, @FormParam("phoneNumber") final String phone) {
+			@FormParam("email") final String email, @FormParam("phoneNumber") final String phone,
+			@FormParam("activities") final Long... activityIds) {
 		Response.ResponseBuilder builder = null;
 
 		try {
-			final Member member = createOrUpdateMember(StringUtils.isNotBlank(id) ? Long.valueOf(id) : null, name, email, phone);
+
+			final Member member = facade.createOrUpdateMember(StringUtils.isNotBlank(id) ? Long.valueOf(id) : null, name, email,
+					phone, activityIds);
 
 			// Trigger the creation event
 			memberEventSrc.fire(member);
@@ -139,13 +140,7 @@ public class MemberService {
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public boolean delete(@PathParam("id") final long id) {
-		final Member member = lookupMemberById(id);
-		if (member == null) {
-			throw new IllegalArgumentException("Member with id " + id + " not found !!");
-		}
-		em.remove(member);
-
-		return true;
+		return facade.delete(id);
 	}
 
 	/**
@@ -168,67 +163,4 @@ public class MemberService {
 		return Response.status(Response.Status.BAD_REQUEST).entity(responseObj);
 	}
 
-	public Member createOrUpdateMember(final Long id, final String name, final String email, final String phone) {
-		// Create a new member class from fields
-		final Member member = id != null ? lookupMemberById(id) : new Member();
-		if (member == null) {
-			throw new IllegalArgumentException("Member with id " + id + " not found !!");
-		}
-		member.setName(name);
-		member.setEmail(email);
-		member.setPhoneNumber(phone);
-
-		// Validates member using bean validation
-		validateMember(member);
-
-		// Register the member
-		log.info("Registering " + member.getName());
-		em.persist(member);
-
-		return member;
-	}
-
-	/**
-	 * <p>
-	 * Validates the given Member variable and throws validation exceptions based on the type of error. If the error is standard
-	 * bean validation errors then it will throw a ConstraintValidationException with the set of the constraints violated.
-	 * </p>
-	 * <p>
-	 * If the error is caused because an existing member with the same email is registered it throws a regular validation
-	 * exception so that it can be interpreted separately.
-	 * </p>
-	 *
-	 * @param member Member to be validated
-	 * @throws ConstraintViolationException If Bean Validation errors exist
-	 * @throws ValidationException If member with the same email already exists
-	 */
-	private void validateMember(final Member member) throws ConstraintViolationException, ValidationException {
-		// Create a bean validator and check for issues.
-		final Set<ConstraintViolation<Member>> violations = validator.validate(member);
-
-		if (!violations.isEmpty()) {
-			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
-		}
-
-		// Check the uniqueness of the email address
-		if (emailAlreadyExists(member.getEmail(), member.getId())) {
-			throw new ValidationException("Unique Email Violation");
-		}
-	}
-
-	/**
-	 * Checks if a member with the same email address is already registered. This is the only way to easily capture the
-	 * "@UniqueConstraint(columnNames = "email")" constraint from the Member class.
-	 *
-	 * @param email The email to check
-	 * @return True if the email already exists, and false otherwise
-	 */
-	public boolean emailAlreadyExists(final String email, final Long id) {
-		final long matchCounter = em.createNamedQuery("Member.countEmail", Long.class).setParameter("email", email)
-				.setParameter("id", id).getSingleResult();
-		if (matchCounter > 0) {
-			return true;
-		}
-		return false;
-	}
 }
