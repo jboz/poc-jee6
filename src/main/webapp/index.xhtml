@@ -52,44 +52,6 @@
 				</p:commandButton>
 			</p:column>
 		</p:dataTable>
-
-		<!-- <p:dataTable var="partner" value="#{partnerBean.partners}" id="partners" editable="true">
-			<p:ajax event="rowEdit" listener="#{partnerBean.onEdit}" update=":form:messages" />
-			<p:ajax event="rowEditCancel" listener="#{partnerBean.onCancel}" update=":form:messages" />
-
-			<p:column headerText="Id" style="width:125px">
-				<h:outputText value="#{partner.id}" />
-			</p:column>
-
-			<p:column headerText="Name" style="width:125px">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{partner.name}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{partner.name}" style="width:100%" required="true">
-							<f:validateLength minimum="2" />
-						</p:inputText>
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
-
-			<p:column headerText="Birth date" style="width:125px">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{partner.birthDate}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:calendar value="#{partner.birthDate}" style="width:100%" required="true" />
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
-
-			<p:column headerText="Edition" style="width:20px">
-				<p:rowEditor />
-			</p:column>
-		</p:dataTable> -->
 	</h:form>
-
 </h:body>
 </html>
