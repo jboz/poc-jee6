@@ -1,11 +1,9 @@
 package com.boz.poc.domain;
 
 /**
- * Contract's state
- *
- * @author jboz
+ * Contract's state.
  */
 public enum ContractState {
 
-	PARTIAL, PROPAL, OFFER, DELETED;
+	OFFER, PROPAL, POLICY;
 }

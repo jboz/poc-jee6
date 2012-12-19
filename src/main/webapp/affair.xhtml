@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="ISO-8859-1" />
+	<title>POC JEE6</title>
+</h:head>
+<h:body>
+<h:form>
+	<h:panelGrid columns="2">
+		<h:outputText value="Affaire n°#{affairBean.affair.id}" />
+		<h:outputText value="assuré #{affairBean.affair.partner.name}" />
+		
+		<p:commandButton value="Accepter" actionListener="#{affairBean.accept}" />
+		<p:commandButton value="Refuser" actionListener="#{affairBean.declin}" />
+	</h:panelGrid>
+</h:form>
+</h:body>
+</html>

@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
  */
 public class Producer {
 
+	@SuppressWarnings("unused")
 	@Produces
 	@PersistenceContext
 	private EntityManager em;

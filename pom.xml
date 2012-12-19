@@ -90,6 +90,11 @@
 			<artifactId>primefaces</artifactId>
 			<version>3.4.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.ocpsoft</groupId>
+			<artifactId>prettyfaces-jsf2</artifactId>
+			<version>3.3.3</version>
+		</dependency>
 
 		<!-- the last one -->
 		<dependency>
@@ -113,7 +118,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 	<profiles>
 		<profile>

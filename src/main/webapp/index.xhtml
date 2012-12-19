@@ -6,51 +6,55 @@
 	<title>POC JEE6</title>
 </h:head>
 <h:body>
-	<h:form id="form">
-		<p:growl id="messages" showDetail="true" />
+	<h:link value="Go to partner page" outcome="partner.xhtml" />
 
-		<p:panel id="panel" header="New Person" style="margin-bottom:10px;">
-			<h:panelGrid columns="3">
-				<h:inputHidden id="id" value="#{partnerBean.partner.id}" />
+	<h:form>
+		<p:growl id="growl" showDetail="true" />
 
-				<h:outputLabel for="name" value="Name: *" />
-				<p:inputText id="name" value="#{partnerBean.partner.name}" required="true" label="Name">
-					<f:validateLength minimum="2" />
-				</p:inputText>
-				<p:message for="name" />
+		<p:dataTable id="affairs" var="affair" value="#{cases}">
+			<f:facet name="header">Affaires connues</f:facet>
 
-				<h:outputLabel for="birthDate" value="Birth date: *" />
-				<p:calendar id="birthDate" value="#{partnerBean.partner.birthDate}" required="true" label="Birth date" pattern="dd/MM/yyyy" />
-				<p:message for="birthDate" />
-			</h:panelGrid>
-		</p:panel>
-
-		<p:commandButton value="Save" update="panel,partners" id="save" actionListener="#{partnerBean.savePartner}" icon="ui-icon-disk"
-			process="@form" />
-
-		<p:dataTable var="partner" value="#{partnerBean.partners}" id="partners">
-			<p:ajax event="rowEdit" listener="#{partnerBean.onEdit}" update=":form:messages" />
-			<p:ajax event="rowEditCancel" listener="#{partnerBean.onCancel}" update=":form:messages" />
-
-			<p:column headerText="Id" style="width:125px">
-				<h:outputText value="#{partner.id}" />
+			<p:column style="width:4%">
+				<p:rowToggler />
 			</p:column>
 
-			<p:column headerText="Name" style="width:125px">
-				<h:outputText value="#{partner.name}" />
+			<p:column style="width:48%">
+				<f:facet name="header">Numéro affaire</f:facet>
+				<h:outputText value="#{affair.id}" />
 			</p:column>
 
-			<p:column headerText="Birth date" style="width:125px">
-				<h:outputText value="#{partner.birthDate}">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
-				</h:outputText>
+			<p:column style="width:48%">
+				<f:facet name="header">Date d'entrée en vigueur</f:facet>
+				<h:outputText value="#{affair.effectDate}" />
 			</p:column>
 
-			<p:column headerText="Edition" style="width:20px">
-				<p:commandButton value="Edit" update=":form:panel" id="edit" process="@this" icon="ui-icon-edit" title="Edit partner">
-					<f:setPropertyActionListener value="#{partner}" target="#{partnerBean.partner}" />
-				</p:commandButton>
-			</p:column>
+			<p:rowExpansion>
+				<h:panelGrid id="display" columns="3" cellpadding="4" style="width:900px;" styleClass="ui-widget-content grid">
+					<f:facet name="header">Assuré(s) de l'affaire :</f:facet>
+
+					<h:panelGroup>
+						<h:outputText value="Assuré A: " />
+						<h:commandLink value="#{affair.ensuredA.partner.name}" action="partner.xhtml">
+							<f:setPropertyActionListener target="#{partnerBean.partner}" value="#{affair.ensuredA.partner}" />
+						</h:commandLink>
+					</h:panelGroup>
+					<h:outputText value="statut d'acceptation: #{affair.ensuredA.acceptation}" />
+					<p:commandButton value="Statuer" action="affair.xhtml">
+						<f:setPropertyActionListener target="#{affairBean.affair}" value="#{affair.ensuredA}" />
+					</p:commandButton>
+
+					<h:panelGroup rendered="#{affair.ensuredB != null}">
+						<h:outputText value="Assuré B: " />
+						<h:commandLink value="#{affair.ensuredB.partner.name}" action="partner.xhtml?faces-redirect=true" >
+							<f:setPropertyActionListener target="#{partnerBean.partner}" value="#{affair.ensuredB.partner}" />
+						</h:commandLink>
+					</h:panelGroup>
+					<h:outputText value="statut d'acceptation: #{affair.ensuredB.acceptation}" rendered="#{affair.ensuredB != null}" />
+					<p:commandButton value="Statuer" action="affair" rendered="#{affair.ensuredB != null}">
+						<f:setPropertyActionListener target="#{affairBean.affair}" value="#{affair.ensuredB}" />
+					</p:commandButton>
+				</h:panelGrid>
+			</p:rowExpansion>
 		</p:dataTable>
 	</h:form>
 </h:body>

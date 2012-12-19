@@ -12,15 +12,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 
 /**
- * Contract entity.
- *
- * @author jboz
+ * Entity implementation class for Entity: ContractCase
  */
 @Entity
-public class Contract implements Serializable {
+@NamedQuery(name = "ContractCase.load", query = "select c from ContractCase c")
+public class ContractCase implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -32,11 +32,14 @@ public class Contract implements Serializable {
 	private Date effectDate;
 
 	@ManyToOne(optional = false)
-	private Partner ensured;
+	private Ensured ensuredA;
+
+	@ManyToOne(optional = true)
+	private Ensured ensuredB;
 
 	@Enumerated(STRING)
 	@Column(nullable = false)
-	private ContractState state = ContractState.PARTIAL;
+	private ContractState state = ContractState.OFFER;
 
 	public Long getId() {
 		return id;
@@ -54,12 +57,20 @@ public class Contract implements Serializable {
 		this.effectDate = effectDate;
 	}
 
-	public Partner getEnsured() {
-		return ensured;
+	public Ensured getEnsuredA() {
+		return ensuredA;
 	}
 
-	public void setEnsured(final Partner ensured) {
-		this.ensured = ensured;
+	public void setEnsuredA(final Ensured ensuredA) {
+		this.ensuredA = ensuredA;
+	}
+
+	public Ensured getEnsuredB() {
+		return ensuredB;
+	}
+
+	public void setEnsuredB(final Ensured ensuredB) {
+		this.ensuredB = ensuredB;
 	}
 
 	public ContractState getState() {
