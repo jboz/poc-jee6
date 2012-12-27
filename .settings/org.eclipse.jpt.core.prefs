@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-org.eclipse.jpt.core.platform=hibernate2_0
+org.eclipse.jpt.core.platform=generic2_0
 org.eclipse.jpt.jpa.core.discoverAnnotatedClasses=true
 problem.PROJECT_NO_CONNECTION=ignore
 workspace_preferences_overriden=true

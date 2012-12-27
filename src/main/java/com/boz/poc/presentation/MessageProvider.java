@@ -13,17 +13,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.javaboz.commons.test.DateUtils;
 
 @ManagedBean(name = "msgs")
 @RequestScoped
 public class MessageProvider extends HashMap<String, String> {
 	private static final long serialVersionUID = 1L;
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(MessageProvider.class);
 
 	private static final String CURRENCY = "CURRENCY";
 	private static final String NOW = "NOW";

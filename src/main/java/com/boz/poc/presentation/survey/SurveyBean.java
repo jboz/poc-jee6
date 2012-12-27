@@ -12,16 +12,16 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
-import ch.mobi.rp.business.integration.entity.survey.BrevetLicence;
-import ch.mobi.rp.business.integration.entity.survey.FormType;
-import ch.mobi.rp.business.integration.entity.survey.FumeFrequence;
-import ch.mobi.rp.business.integration.entity.survey.FumeQuoi;
-import ch.mobi.rp.business.integration.entity.survey.Localisation;
-import ch.mobi.rp.business.integration.entity.survey.Niveau;
-import ch.mobi.rp.business.integration.entity.survey.OuiNon;
-import ch.mobi.rp.business.integration.entity.survey.Participation;
-import ch.mobi.rp.business.integration.entity.survey.Question;
-import ch.mobi.rp.business.integration.entity.survey.Sports;
+import com.boz.poc.domain.survey.BrevetLicence;
+import com.boz.poc.domain.survey.FormType;
+import com.boz.poc.domain.survey.FumeFrequence;
+import com.boz.poc.domain.survey.FumeQuoi;
+import com.boz.poc.domain.survey.Localisation;
+import com.boz.poc.domain.survey.Niveau;
+import com.boz.poc.domain.survey.OuiNon;
+import com.boz.poc.domain.survey.Participation;
+import com.boz.poc.domain.survey.Question;
+import com.boz.poc.domain.survey.Sports;
 
 @ManagedBean
 @SessionScoped
