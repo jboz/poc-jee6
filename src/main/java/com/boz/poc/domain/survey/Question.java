@@ -33,6 +33,15 @@ public class Question<T> implements Serializable {
 		return getResponse(0);
 	}
 
+	public List<T> getResponsesValues() {
+		List<T> values = new ArrayList<>();
+		for (Response<T> response : responses) {
+			values.add(response.getValue());
+		}
+
+		return values;
+	}
+
 	public Response<T> getResponse(final int index) {
 		return index < 0 ? null : index >= responses.size() ? addNewResponse() : responses.get(index);
 	}
